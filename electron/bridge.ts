@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge, ipcRenderer, remote } from 'electron'
 
 export const api = {
   /**
@@ -11,6 +11,29 @@ export const api = {
 
   sendMessage: (message: string) => { 
     ipcRenderer.send('message', message)
+  },
+
+  handleCloseWindow () {
+    const window = remote.getCurrentWindow()
+
+    window.close()
+  },
+
+  handleMaximizeWindow () {
+    console.log(remote);
+    const window = remote.getCurrentWindow()
+
+    if (!window.isMaximized()) {
+      window.maximize()
+    } else {
+      window.unmaximize()
+    }
+  },
+
+  handleMinimizeWindow () {
+    const window = remote.getCurrentWindow()
+
+    window.minimize()
   },
 
   /**

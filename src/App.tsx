@@ -1,12 +1,20 @@
 import { GlobalStyle } from './styles/GlobalStyle'
 
-import Voice from './components/Voice'
+// Components
+import Header from './components/Header'
+import { PageContainer } from './components/PageContainer'
+
+// Pages
+import { Home } from './pages/Home'
 
 export function App() {
   return (
     <>
       <GlobalStyle />
-      <Voice />
+      <Header />
+      <PageContainer>
+        <Home />
+      </PageContainer>
     </>
   )
 }
