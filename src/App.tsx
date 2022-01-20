@@ -1,12 +1,12 @@
 import { GlobalStyle } from './styles/GlobalStyle'
 
-import { Greetings } from './components/Greetings'
+import Voice from './components/Voice'
 
 export function App() {
   return (
     <>
       <GlobalStyle />
-      <Greetings />
+      <Voice />
     </>
   )
 }
