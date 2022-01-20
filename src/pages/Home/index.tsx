@@ -1,4 +1,4 @@
-import { Button } from '../Button'
+import { Button } from '../../components/Button'
 import { Container, Image } from './styles'
 
 export function Home() {
