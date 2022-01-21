@@ -1,21 +1,57 @@
-import { Button } from '../../components/Button'
+import { useState } from 'react'
 import { taigaImages } from '../../utils/taigaImages'
-import { Container, Image, LeftContent, RightContent } from './styles'
+
+import { Button } from '../../components/Button'
+import Modal from '../../components/Modal'
+
+import {
+  Container,
+  ModalBody,
+  Image,
+  LeftContent,
+  RightContent,
+} from './styles'
 
 export function Home() {
-  function handleNavigateToVoice() {}
+  const [modalIsOpen, setModalIsOpen] = useState(true)
+  const [image, setImage] = useState('animated-taiga-shy')
 
-  console.log(taigaImages["taiga-shy"]);
+  function handleOpenChangeImageModal() {
+    setModalIsOpen(true)
+  }
+
+  function handleChangeImage(key: string) {
+    setImage(key)
+    setModalIsOpen(false)
+  }
 
   return (
     <Container>
+      {modalIsOpen && (
+        <Modal title="Select a Image" setIsOpen={setModalIsOpen}>
+          <ModalBody>
+            {Object.keys(taigaImages).map(key => (
+              <Image
+                style={{
+                  backgroundImage: `url(${taigaImages[key].default})`,
+                }}
+                onClick={() => handleChangeImage(key)}
+              />
+            ))}
+          </ModalBody>
+        </Modal>
+      )}
       <LeftContent>
-        <Image src={taigaImages["taiga-shy"].default} />
-        <Button onClick={handleNavigateToVoice}>Talk</Button>
+        <Image
+          style={{
+            backgroundImage: `url(${taigaImages[image].default})`,
+          }}
+          onClick={handleOpenChangeImageModal}
+        />
+        <strong>Welcome!</strong>
+        <Button>New Command</Button>
       </LeftContent>
-      <RightContent>
-
-      </RightContent>
+      <RightContent></RightContent>
     </Container>
   )
 }

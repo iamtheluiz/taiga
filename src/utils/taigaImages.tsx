@@ -1,4 +1,4 @@
-export const taigaImages = {
+export const taigaImages: any = {
   "animated-taiga-he": require("../assets/animated-taiga-he.gif"),
   "animated-taiga-hunf": require("../assets/animated-taiga-hunf.gif"),
   "animated-taiga-shy": require("../assets/animated-taiga-shy.gif"),
