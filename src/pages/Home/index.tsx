@@ -1,11 +1,21 @@
 import { Button } from '../../components/Button'
-import { Container, Image } from './styles'
+import { taigaImages } from '../../utils/taigaImages'
+import { Container, Image, LeftContent, RightContent } from './styles'
 
 export function Home() {
+  function handleNavigateToVoice() {}
+
+  console.log(taigaImages["taiga-shy"]);
+
   return (
     <Container>
-      <Image src="https://i.pinimg.com/564x/97/52/bf/9752bfab3df02f402135b784a1710a56.jpg" />
-      <Button>Talk</Button>
+      <LeftContent>
+        <Image src={taigaImages["taiga-shy"].default} />
+        <Button onClick={handleNavigateToVoice}>Talk</Button>
+      </LeftContent>
+      <RightContent>
+
+      </RightContent>
     </Container>
   )
 }

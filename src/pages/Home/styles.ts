@@ -4,7 +4,7 @@ export const Container = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 
@@ -18,3 +18,6 @@ export const Image = styled.img`
   height: 240px;
   border-radius: 50%;
 `
+
+export const LeftContent = styled.div``;
+export const RightContent = styled.div``;

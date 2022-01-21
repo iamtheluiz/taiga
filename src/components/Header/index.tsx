@@ -4,7 +4,6 @@ import { FiX, FiMinus, FiMaximize } from 'react-icons/fi'
 import { Container, DragContainer, Button } from './styles'
 
 const Header: FC = () => {
-  console.log(window);
   return (
     <Container>
       <DragContainer>

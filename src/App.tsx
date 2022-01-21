@@ -1,3 +1,5 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import { GlobalStyle } from './styles/GlobalStyle'
 
 // Components
@@ -13,7 +15,12 @@ export function App() {
       <GlobalStyle />
       <Header />
       <PageContainer>
-        <Home />
+        <BrowserRouter>
+          <Routes>
+            <Route path="main_window" element={<Home />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </BrowserRouter>
       </PageContainer>
     </>
   )
