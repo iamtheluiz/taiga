@@ -1,6 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
-import { spawn } from 'child_process';
+
+import { ipc } from './recognition'
 
 let mainWindow: BrowserWindow | null
 
@@ -42,24 +43,6 @@ async function registerListeners () {
     console.log(message)
   })
 }
-
-// Taiga Recognition
-const executablePath =
-  process.env.NODE_ENV === 'production'
-    ? path.join(__dirname, 'TaigaRecognition', 'TaigaRecognition.exe')
-    : path.join(__dirname, '..', '..', 'TaigaRecognition', 'bin', 'Release', 'net6.0', 'TaigaRecognition.exe')
-
-const ipc = spawn(executablePath)
-ipc.stdin.setDefaultEncoding("utf8")
-
-ipc.stdout.on('data', function (data) {
-  const out = data.toString().split('Recognized text: ')[1].replace(/(\r\n|\n|\r)/gm, "");
-  console.log(`You: ${out}`);
-
-  if (out === "hey taiga") {
-    console.log("Taiga: hello!");
-  }
-});
 
 app.on('ready', createWindow)
   .whenReady()
