@@ -13,6 +13,10 @@ export const api = {
     ipcRenderer.send('message', message)
   },
 
+  send: (channel: string, message: any) => { 
+    ipcRenderer.send(channel, message)
+  },
+
   handleCloseWindow () {
     const window = remote.getCurrentWindow()
 

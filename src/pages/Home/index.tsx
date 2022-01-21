@@ -13,7 +13,7 @@ import {
 } from './styles'
 
 export function Home() {
-  const [modalIsOpen, setModalIsOpen] = useState(true)
+  const [modalIsOpen, setModalIsOpen] = useState(false)
   const [image, setImage] = useState('animated-taiga-shy')
 
   function handleOpenChangeImageModal() {
@@ -23,6 +23,14 @@ export function Home() {
   function handleChangeImage(key: string) {
     setImage(key)
     setModalIsOpen(false)
+  }
+
+  function handleTaigaListen() {
+    window.Main.send("taiga-recognition", { action: "start" })
+
+    window.Main.on("taiga-recognition", (_: any, data: any) => {
+      console.log(data);
+    })
   }
 
   return (
@@ -49,7 +57,7 @@ export function Home() {
           onClick={handleOpenChangeImageModal}
         />
         <strong>Welcome!</strong>
-        <Button>New Command</Button>
+        <Button onClick={handleTaigaListen}>Listen</Button>
       </LeftContent>
       <RightContent></RightContent>
     </Container>
