@@ -1,8 +1,22 @@
 [
   {
-    "name": "open google chrome",
+    "name": "taiga open google chrome",
     "type": "shell",
     "content": "start \"\" \"http://www.google.com\""
   },
-  { "name": "hey taiga" }
+  {
+    "name": "taiga open mio twitch stream",
+    "type": "shell",
+    "content": "start \"\" \"https://www.twitch.tv/mio_miau\""
+  },
+  {
+    "name": "taiga open genshin impact",
+    "type": "shell",
+    "content": "start C:/\"Program Files\"/\"Genshin Impact\"/launcher.exe"
+  },
+  {
+    "name": "taiga, open sayonara playlist",
+    "type": "shell",
+    "content": "start \"\" \"https://www.youtube.com/watch?v=YzTqhqZbSmY&list=OLAK5uy_lFnFQy9hd5ctN7Ah0j34cP1zui2pLbURY&index=1&ab_channel=DanielOls%C3%A9n-Topic\""
+  }
 ]

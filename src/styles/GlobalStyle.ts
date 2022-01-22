@@ -12,4 +12,11 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     color: #E1E1E6;
   }
+
+  div#root {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100vw;
+  }
 `

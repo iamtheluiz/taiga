@@ -2,6 +2,8 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 
 import { ipc } from './recognition'
+import { addNewCommand } from './utils/addNewCommand'
+import { getCommandList } from './utils/getCommandList'
 
 let mainWindow: BrowserWindow | null
 
@@ -41,6 +43,23 @@ async function registerListeners () {
    */
   ipcMain.on('message', (_, message) => {
     console.log(message)
+  })
+
+  ipcMain.on('get-commands', (_, message) => {
+    _.sender.send('update-commands', getCommandList())
+  })
+
+  ipcMain.on('add-new-command', (_, message) => {
+    addNewCommand(message.command);
+    _.sender.send('update-commands', getCommandList())
+  })
+
+  ipcMain.on('taiga-recognition', (_, message) => {
+    // if (message.action === 'turn-off') {
+
+    // } else if (message.action === 'turn-on') {
+      
+    // }
   })
 }
 

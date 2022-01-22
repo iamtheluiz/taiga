@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { taigaImages } from '../../utils/taigaImages'
+
+import { BsTerminalFill } from 'react-icons/bs'
 
 import { Button } from '../../components/Button'
 import Modal from '../../components/Modal'
@@ -10,14 +12,29 @@ import {
   Image,
   LeftContent,
   RightContent,
+  CommandsContainer,
+  CommandContainer
 } from './styles'
 
 export function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [image, setImage] = useState('animated-taiga-shy')
+  const [commands, setCommands] = useState<any[]>([]);
+
+  useEffect(() => {
+    window.Main.send("get-commands", null)
+
+    window.Main.on("update-commands", (data: any) => {
+      setCommands(JSON.parse(data));
+    })
+  }, [])
 
   function handleOpenChangeImageModal() {
     setModalIsOpen(true)
+  }
+
+  function handleRefreshCommands() {
+    window.Main.send("get-commands", null)
   }
 
   function handleChangeImage(key: string) {
@@ -58,8 +75,20 @@ export function Home() {
         />
         <strong>Welcome!</strong>
         <Button onClick={handleTaigaListen}>Listen</Button>
+        <Button onClick={handleRefreshCommands}>Refresh</Button>
       </LeftContent>
-      <RightContent></RightContent>
+      <RightContent>
+        <h1>Commands</h1>
+        <br />
+        <CommandsContainer>
+          {commands.map(command => (
+            <CommandContainer>
+              <BsTerminalFill />
+              {command.type} - {command.name}
+            </CommandContainer>
+          ))}
+        </CommandsContainer>
+      </RightContent>
     </Container>
   )
 }

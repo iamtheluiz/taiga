@@ -4,14 +4,11 @@ export const Container = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
+  max-width: 100vw;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-
-  button {
-    margin-top: 24px;
-  }
 `
 
 export const ModalBody = styled.div`
@@ -32,5 +29,45 @@ export const Image = styled.div`
   background-repeat: no-repeat;
 `
 
-export const LeftContent = styled.div``;
-export const RightContent = styled.div``;
+export const LeftContent = styled.div`
+  width: 360px;
+  height: 100%;
+  padding: 16px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  button, strong {
+    text-align: center;
+    width: 100%;
+    margin-top: 12px;
+  }
+  strong {
+    font-size: 20px;
+  }
+`;
+export const RightContent = styled.div`
+  padding: 16px;
+  flex: 1;
+`;
+
+export const CommandsContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+export const CommandContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  width: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: #ffffff40;
+`
+

@@ -50,7 +50,10 @@ namespace SpeechRecognitionApp
         // Handle the SpeechRecognized event.  
         static void recognizer_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
         {
-            Console.WriteLine("Recognized text: " + e.Result.Text);
+            if (e.Result.Confidence >= 0.9)
+            {
+                Console.WriteLine("Recognized text: " + e.Result.Text);
+            }
         }
     }
 }
