@@ -1,5 +1,5 @@
 import path from 'path'
-import { spawn } from 'child_process'
+import { spawn, ChildProcessWithoutNullStreams } from 'child_process'
 import { executeCommand } from './utils/executeCommand'
 
 // Taiga Recognition
@@ -8,12 +8,21 @@ const executablePath =
     ? path.join(__dirname, 'TaigaRecognition', 'TaigaRecognition.exe')
     : path.join(__dirname, '..', '..', 'TaigaRecognition', 'bin', 'Release', 'net6.0', 'TaigaRecognition.exe')
 
-export const ipc = spawn(executablePath)
-ipc.stdin.setDefaultEncoding("utf8")
+let ipc: ChildProcessWithoutNullStreams | null = null;
 
-ipc.stdout.on('data', function (data) {
-  const out = data.toString().split('Recognized text: ')[1].replace(/(\r\n|\n|\r)/gm, "");
-  console.log(`You: ${out}`);
+export function startRecognition() {
+  ipc = spawn(executablePath)
+  ipc.stdin.setDefaultEncoding("utf8")
 
-  executeCommand(out)
-});
+  ipc.stdout.on('data', function (data) {
+    const out = data.toString().split('Recognized text: ')[1].replace(/(\r\n|\n|\r)/gm, "");
+    console.log(`You: ${out}`);
+
+    executeCommand(out)
+  });
+}
+
+export function stopRecognition() {
+  ipc?.kill();
+  ipc = null; 
+}

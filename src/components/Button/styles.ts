@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 
-export const Container = styled.button`
+import { ButtonProps } from '.'
+
+export const Container = styled.button<ButtonProps>`
+  width: ${props => props.fullWidth === true ? '100%' : 'auto'};
   height: 42px;
   padding: 0 24px;
   

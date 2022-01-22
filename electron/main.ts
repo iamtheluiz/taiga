@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
 
-import { ipc } from './recognition'
+import { startRecognition, stopRecognition } from './recognition'
 import { addNewCommand } from './utils/addNewCommand'
 import { getCommandList } from './utils/getCommandList'
 
@@ -55,11 +55,11 @@ async function registerListeners () {
   })
 
   ipcMain.on('taiga-recognition', (_, message) => {
-    // if (message.action === 'turn-off') {
-
-    // } else if (message.action === 'turn-on') {
-      
-    // }
+    if (message.action === 'turn-off') {
+      stopRecognition()
+    } else if (message.action === 'turn-on') {
+      startRecognition();
+    }
   })
 }
 
@@ -69,7 +69,7 @@ app.on('ready', createWindow)
   .catch(e => console.error(e))
 
 app.on('window-all-closed', () => {
-  ipc.kill();
+  stopRecognition()
   if (process.platform !== 'darwin') {
     app.quit()
   }

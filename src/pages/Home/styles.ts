@@ -41,7 +41,6 @@ export const LeftContent = styled.div`
 
   button, strong {
     text-align: center;
-    width: 100%;
     margin-top: 12px;
   }
   strong {

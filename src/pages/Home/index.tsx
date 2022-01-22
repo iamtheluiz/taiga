@@ -17,6 +17,7 @@ import {
 } from './styles'
 
 export function Home() {
+  const [isRecognizing, setIsRecognizing] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [image, setImage] = useState('animated-taiga-shy')
   const [commands, setCommands] = useState<any[]>([]);
@@ -42,12 +43,14 @@ export function Home() {
     setModalIsOpen(false)
   }
 
-  function handleTaigaListen() {
-    window.Main.send("taiga-recognition", { action: "start" })
+  function handleTaigaStart() {
+    window.Main.send("taiga-recognition", { action: "turn-on" })
+    setIsRecognizing(true)
+  }
 
-    window.Main.on("taiga-recognition", (_: any, data: any) => {
-      console.log(data);
-    })
+  function handleTaigaStop() {
+    window.Main.send("taiga-recognition", { action: "turn-off" })
+    setIsRecognizing(false)
   }
 
   return (
@@ -74,15 +77,19 @@ export function Home() {
           onClick={handleOpenChangeImageModal}
         />
         <strong>Welcome!</strong>
-        <Button onClick={handleTaigaListen}>Listen</Button>
-        <Button onClick={handleRefreshCommands}>Refresh</Button>
+        {isRecognizing ? (
+          <Button onClick={handleTaigaStop} style={{ backgroundColor: '#c53434'}} fullWidth>Stop Listening</Button>
+        ) : (
+          <Button onClick={handleTaigaStart} style={{ backgroundColor: '#34c534'}} fullWidth>Start Listening</Button>
+        )}
+        <Button onClick={handleRefreshCommands} fullWidth>Refresh</Button>
       </LeftContent>
       <RightContent>
         <h1>Commands</h1>
         <br />
         <CommandsContainer>
           {commands.map(command => (
-            <CommandContainer>
+            <CommandContainer key={command.name}>
               <BsTerminalFill />
               {command.type} - {command.name}
             </CommandContainer>
