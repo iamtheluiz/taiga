@@ -27,6 +27,7 @@ export const Image = styled.div`
   background-position: 50% 50%;
   background-size: cover;
   background-repeat: no-repeat;
+  cursor: pointer;
 `
 
 export const LeftContent = styled.div`

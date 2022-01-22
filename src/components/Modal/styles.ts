@@ -6,7 +6,7 @@ export const Container = styled.div`
   height: 90%;
   max-height: 90%;
   overflow-y: auto;
-  background-color: #100f15d6;
+  background-color: #100f15f0;
   border-radius: 16px;
   padding: 16px;
 `;
