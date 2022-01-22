@@ -48,12 +48,19 @@ export const LeftContent = styled.div`
   }
 `;
 export const RightContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 16px;
   flex: 1;
+  height: 100%;
 `;
 
 export const CommandsContainer = styled.div`
-  width: 100%;
+  flex: 1;
+  width: 100%;  
+  overflow-y: auto;
+
   display: flex;
   flex-direction: column;
   gap: 6px;

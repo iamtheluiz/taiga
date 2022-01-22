@@ -26,7 +26,10 @@ export function Home() {
     window.Main.send("get-commands", null)
 
     window.Main.on("update-commands", (data: any) => {
-      setCommands(JSON.parse(data));
+      setCommands(JSON.parse(data))
+    })
+    window.Main.on("taiga-recognition-status", (data: any) => {
+      setIsRecognizing(data.isRecognizing)
     })
   }, [])
 
@@ -45,12 +48,14 @@ export function Home() {
 
   function handleTaigaStart() {
     window.Main.send("taiga-recognition", { action: "turn-on" })
-    setIsRecognizing(true)
   }
 
   function handleTaigaStop() {
     window.Main.send("taiga-recognition", { action: "turn-off" })
-    setIsRecognizing(false)
+  }
+
+  function handleAddCommand() {
+
   }
 
   return (
@@ -95,6 +100,7 @@ export function Home() {
             </CommandContainer>
           ))}
         </CommandsContainer>
+        <Button onClick={handleAddCommand} fullWidth>Add Command</Button>
       </RightContent>
     </Container>
   )

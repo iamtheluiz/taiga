@@ -57,8 +57,10 @@ async function registerListeners () {
   ipcMain.on('taiga-recognition', (_, message) => {
     if (message.action === 'turn-off') {
       stopRecognition()
+      _.sender.send('taiga-recognition-status', { isRecognizing: false })
     } else if (message.action === 'turn-on') {
       startRecognition();
+      _.sender.send('taiga-recognition-status', { isRecognizing: true })
     }
   })
 }
