@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 
 import { GlobalStyle } from './styles/GlobalStyle'
 
@@ -8,6 +8,7 @@ import { PageContainer } from './components/PageContainer'
 
 // Pages
 import { Home } from './pages/Home'
+import { NewCommand } from './pages/NewCommand'
 
 export function App() {
   return (
@@ -15,12 +16,13 @@ export function App() {
       <GlobalStyle />
       <Header />
       <PageContainer>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="main_window" element={<Home />} />
+            <Route path="new_command" element={<NewCommand />} />
             <Route path="*" element={<Home />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </PageContainer>
     </>
   )

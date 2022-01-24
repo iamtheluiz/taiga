@@ -9,6 +9,7 @@ const executablePath =
     : path.join(__dirname, '..', '..', 'TaigaRecognition', 'bin', 'Release', 'net6.0', 'TaigaRecognition.exe')
 
 let ipc: ChildProcessWithoutNullStreams | null = null;
+export let isRecognizing = false;
 
 export function startRecognition() {
   ipc = spawn(executablePath)
@@ -20,9 +21,18 @@ export function startRecognition() {
 
     executeCommand(out)
   });
+
+  isRecognizing = true
 }
 
 export function stopRecognition() {
   ipc?.kill();
-  ipc = null; 
+  ipc = null;
+
+  isRecognizing = false
+}
+
+export function resetRecognition() {
+  stopRecognition();
+  startRecognition();
 }

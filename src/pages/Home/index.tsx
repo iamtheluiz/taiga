@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import { taigaImages } from '../../utils/taigaImages'
 
+// Icons
 import { BsTerminalFill } from 'react-icons/bs'
+import { FaTrash } from 'react-icons/fa'
 
+// Components
 import { Button } from '../../components/Button'
 import Modal from '../../components/Modal'
 
@@ -17,16 +22,19 @@ import {
 } from './styles'
 
 export function Home() {
-  const [isRecognizing, setIsRecognizing] = useState(false);
+  const [isRecognizing, setIsRecognizing] = useState(false)
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const [image, setImage] = useState('animated-taiga-shy')
-  const [commands, setCommands] = useState<any[]>([]);
+  const [image, setImage] = useState('taiga-surprise')
+  const [commands, setCommands] = useState<any[]>([])
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     window.Main.send("get-commands", null)
+    window.Main.send("taiga-recognition-get-status", null)
 
     window.Main.on("update-commands", (data: any) => {
-      setCommands(JSON.parse(data))
+      setCommands(data)
     })
     window.Main.on("taiga-recognition-status", (data: any) => {
       setIsRecognizing(data.isRecognizing)
@@ -55,7 +63,12 @@ export function Home() {
   }
 
   function handleAddCommand() {
+    window.Main.send("taiga-recognition", { action: "turn-off" })
+    navigate('/new_command')
+  }
 
+  function handleRemoveCommand(command: any) {
+    window.Main.send("remove-command", { command })
   }
 
   return (
@@ -87,16 +100,34 @@ export function Home() {
         ) : (
           <Button onClick={handleTaigaStart} style={{ backgroundColor: '#34c534'}} fullWidth>Start Listening</Button>
         )}
-        <Button onClick={handleRefreshCommands} fullWidth>Refresh</Button>
+        <Button onClick={handleRefreshCommands} fullWidth>Refresh Commands</Button>
       </LeftContent>
       <RightContent>
         <h1>Commands</h1>
         <br />
         <CommandsContainer>
+          {commands.length === 0 && (
+            <strong>0 commands found</strong>
+          )}
           {commands.map(command => (
             <CommandContainer key={command.name}>
               <BsTerminalFill />
-              {command.type} - {command.name}
+              <span style={{ flex: 1 }}>
+                {command.type} - {command.name}
+              </span>
+              {command.default === false && (
+                <Button
+                  onClick={() => handleRemoveCommand(command)}
+                  style={{
+                    backgroundColor: '#c53434',
+                    width: 38,
+                    height: 38,
+                    padding: 0
+                  }}
+                >
+                  <FaTrash size={18} />
+                </Button>
+              )}
             </CommandContainer>
           ))}
         </CommandsContainer>

@@ -1,9 +1,10 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import path from 'path'
 
-import { startRecognition, stopRecognition } from './recognition'
+import { resetRecognition, startRecognition, stopRecognition, isRecognizing } from './recognition'
 import { addNewCommand } from './utils/addNewCommand'
 import { getCommandList } from './utils/getCommandList'
+import { removeCommand } from './utils/removeCommand'
 
 let mainWindow: BrowserWindow | null
 
@@ -45,6 +46,12 @@ async function registerListeners () {
     console.log(message)
   })
 
+  ipcMain.on('open-dialog', async (_, message) => {
+    const selectedFile = await dialog.showOpenDialog({ properties: ['openFile'] })
+
+    _.sender.send('open-dialog-response', selectedFile);
+  })
+
   ipcMain.on('get-commands', (_, message) => {
     _.sender.send('update-commands', getCommandList())
   })
@@ -52,6 +59,13 @@ async function registerListeners () {
   ipcMain.on('add-new-command', (_, message) => {
     addNewCommand(message.command);
     _.sender.send('update-commands', getCommandList())
+    resetRecognition()
+  })
+
+  ipcMain.on('remove-command', (_, message) => {
+    removeCommand(message.command);
+    _.sender.send('update-commands', getCommandList())
+    resetRecognition()
   })
 
   ipcMain.on('taiga-recognition', (_, message) => {
@@ -59,9 +73,13 @@ async function registerListeners () {
       stopRecognition()
       _.sender.send('taiga-recognition-status', { isRecognizing: false })
     } else if (message.action === 'turn-on') {
-      startRecognition();
+      startRecognition()
       _.sender.send('taiga-recognition-status', { isRecognizing: true })
     }
+  })
+
+  ipcMain.on('taiga-recognition-get-status', (_, message) => {
+    _.sender.send('taiga-recognition-status', { isRecognizing })
   })
 }
 

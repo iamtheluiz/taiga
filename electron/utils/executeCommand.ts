@@ -14,6 +14,14 @@ export function executeCommand(name: string) {
     case "shell":
       exec(command.content);
       break;
+
+    case "program":
+      exec(command.content);
+      break;
+
+    case "website":
+      exec(`start \"\" \"${command.content}\"`);
+      break;
   
     default:
       break;

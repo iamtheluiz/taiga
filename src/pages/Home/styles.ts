@@ -73,8 +73,8 @@ export const CommandContainer = styled.div`
   gap: 6px;
 
   width: 100%;
-  padding: 16px;
-  border-radius: 16px;
+  padding: 12px;
+  border-radius: 12px;
   background-color: #ffffff40;
 `
 

@@ -1,22 +1,9 @@
 [
   {
-    "name": "taiga open google chrome",
-    "type": "shell",
-    "content": "start \"\" \"http://www.google.com\""
-  },
-  {
-    "name": "taiga open mio twitch stream",
-    "type": "shell",
-    "content": "start \"\" \"https://www.twitch.tv/mio_miau\""
-  },
-  {
-    "name": "taiga open genshin impact",
-    "type": "shell",
-    "content": "start C:/\"Program Files\"/\"Genshin Impact\"/launcher.exe"
-  },
-  {
-    "name": "taiga, open sayonara playlist",
-    "type": "shell",
-    "content": "start \"\" \"https://www.youtube.com/watch?v=YzTqhqZbSmY&list=OLAK5uy_lFnFQy9hd5ctN7Ah0j34cP1zui2pLbURY&index=1&ab_channel=DanielOls%C3%A9n-Topic\""
+    "name": "taiga open boxbox stream",
+    "type": "website",
+    "content": "https://www.twitch.tv/boxbox",
+    "id": "c3cf7746-35c1-408d-b390-613c77207eaa",
+    "default": false
   }
 ]
