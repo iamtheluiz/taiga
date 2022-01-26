@@ -1,6 +1,6 @@
 import path from 'path'
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process'
-import { executeCommand } from '../utils/executeCommand';
+import { Command } from './Command';
 
 const executablePath =
   process.env.NODE_ENV === 'production'
@@ -19,7 +19,7 @@ export class Recognition {
       const out = data.toString().split('Recognized text: ')[1].replace(/(\r\n|\n|\r)/gm, "");
       console.log(`You: ${out}`);
 
-      executeCommand(out)
+      Command.executeCommand(out)
     });
 
     this.isRecognizing = true

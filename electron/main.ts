@@ -1,10 +1,7 @@
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import path from 'path'
+import { Command } from './lib/Command'
 import { Recognition } from './lib/Recognition'
-
-import { addNewCommand } from './utils/addNewCommand'
-import { getCommandList } from './utils/getCommandList'
-import { removeCommand } from './utils/removeCommand'
 
 let mainWindow: BrowserWindow | null
 
@@ -53,18 +50,18 @@ async function registerListeners () {
   })
 
   ipcMain.on('get-commands', (_, message) => {
-    _.sender.send('update-commands', getCommandList())
+    _.sender.send('update-commands', Command.getCommandList())
   })
 
   ipcMain.on('add-new-command', (_, message) => {
-    addNewCommand(message.command);
-    _.sender.send('update-commands', getCommandList())
+    Command.addNewCommand(message.command);
+    _.sender.send('update-commands', Command.getCommandList())
     Recognition.resetRecognition()
   })
 
   ipcMain.on('remove-command', (_, message) => {
-    removeCommand(message.command);
-    _.sender.send('update-commands', getCommandList())
+    Command.removeCommand(message.command);
+    _.sender.send('update-commands', Command.getCommandList())
     Recognition.resetRecognition()
   })
 
