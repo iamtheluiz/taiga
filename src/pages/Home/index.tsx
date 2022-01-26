@@ -5,7 +5,7 @@ import { taigaImages } from '../../utils/taigaImages'
 
 // Icons
 import { BsTerminalFill } from 'react-icons/bs'
-import { FaTrash } from 'react-icons/fa'
+import { FaLaptop, FaTrash } from 'react-icons/fa'
 
 // Components
 import { Button } from '../../components/Button'
@@ -20,6 +20,7 @@ import {
   CommandsContainer,
   CommandContainer
 } from './styles'
+import { FiGlobe } from 'react-icons/fi'
 
 export function Home() {
   const [isRecognizing, setIsRecognizing] = useState(false)
@@ -111,7 +112,9 @@ export function Home() {
           )}
           {commands.map(command => (
             <CommandContainer key={command.name}>
-              <BsTerminalFill />
+              {command.type === 'website' && <FiGlobe />}
+              {command.type === 'shell' && <BsTerminalFill />}
+              {command.type === 'program' && <FaLaptop />}
               <span style={{ flex: 1 }}>
                 {command.type} - {command.name}
               </span>
