@@ -1,6 +1,6 @@
 <p align="center">
-	<img width="192px" src=".github/icon.jpg" alt="NLW Together 06" style="border-radius: 32px;" /> <br>
-  Taiga - A short and cute shortcut app
+	<img width="192px" src=".github/icon.jpg" alt="Taiga Icon" /> <br>
+  🐯 Taiga - A short and cute shortcut app
 </p>
 
 <p align="center">
@@ -13,13 +13,31 @@
 
 <img src=".github/taiga.png" alt="Captura de Tela da Página Inicial" />
 
-## Taiga - A short and cute shortcut app
+## 🐯 Taiga - A short and cute shortcut app
+
+<p align="center">
+	<img width="500px" src=".github/taiga-gif.gif" alt="Taiga" />
+</p>
 
 Taiga is a speech recognition app that executes registered voice commands.
 
-* **Luiz Gustavo** - *Development* - [iamtheluiz](https://github.com/iamtheluiz)
+## 📂 Boilerplate
 
-## Installation
+* [diego3g](https://github.com/diego3g)/[electron-typescript-react](https://github.com/diego3g/electron-typescript-react)
+  * Website: https://iamtheluiz.github.io
+  * Github: [@iamtheluiz](https://github.com/iamtheluiz)
+  * LinkedIn: [Luiz Gustavo da Silva Vasconcellos](https://www.linkedin.com/in/luiz-gustavo-da-silva-vasconcellos)
+
+## 🏃 Getting Started
+
+First, clone this repository and access the created folder:
+
+```bash
+# Cloning repository
+git clone https://github.com/iamtheluiz/taiga.git
+
+cd taiga/
+```
 
 Taiga uses electron with react to create a user interface and .NET to recognize user commands.
 
@@ -47,7 +65,7 @@ cd taiga/TaigaRecognition
 dotnet publish -c Release
 ```
 
-## Usage
+## 👨🏽‍💻 Usage
 
 Just run `start` script.
 
@@ -55,10 +73,17 @@ Just run `start` script.
 yarn start
 ```
 
-## Packaging
+## ⚙️ Packaging
 
 To generate the project package based on the OS you're running on, just run:
 
 ```bash
 yarn package
 ```
+
+## 💼 Authors
+
+* **Luiz Gustavo** - *Development* - [iamtheluiz](https://github.com/iamtheluiz)
+  * Website: https://iamtheluiz.github.io
+  * Github: [@iamtheluiz](https://github.com/iamtheluiz)
+  * LinkedIn: [Luiz Gustavo da Silva Vasconcellos](https://www.linkedin.com/in/luiz-gustavo-da-silva-vasconcellos)
