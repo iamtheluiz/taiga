@@ -1,7 +1,7 @@
 import { app, BrowserWindow, dialog, ipcMain } from 'electron'
 import path from 'path'
+import { Recognition } from './lib/Recognition'
 
-import { resetRecognition, startRecognition, stopRecognition, isRecognizing } from './recognition'
 import { addNewCommand } from './utils/addNewCommand'
 import { getCommandList } from './utils/getCommandList'
 import { removeCommand } from './utils/removeCommand'
@@ -59,27 +59,27 @@ async function registerListeners () {
   ipcMain.on('add-new-command', (_, message) => {
     addNewCommand(message.command);
     _.sender.send('update-commands', getCommandList())
-    resetRecognition()
+    Recognition.resetRecognition()
   })
 
   ipcMain.on('remove-command', (_, message) => {
     removeCommand(message.command);
     _.sender.send('update-commands', getCommandList())
-    resetRecognition()
+    Recognition.resetRecognition()
   })
 
   ipcMain.on('taiga-recognition', (_, message) => {
     if (message.action === 'turn-off') {
-      stopRecognition()
+      Recognition.stopRecognition()
       _.sender.send('taiga-recognition-status', { isRecognizing: false })
     } else if (message.action === 'turn-on') {
-      startRecognition()
+      Recognition.startRecognition()
       _.sender.send('taiga-recognition-status', { isRecognizing: true })
     }
   })
 
   ipcMain.on('taiga-recognition-get-status', (_, message) => {
-    _.sender.send('taiga-recognition-status', { isRecognizing })
+    _.sender.send('taiga-recognition-status', { isRecognizing: Recognition.isRecognizing })
   })
 }
 
@@ -89,7 +89,7 @@ app.on('ready', createWindow)
   .catch(e => console.error(e))
 
 app.on('window-all-closed', () => {
-  stopRecognition()
+  Recognition.stopRecognition()
   if (process.platform !== 'darwin') {
     app.quit()
   }
