@@ -4,7 +4,9 @@ import { exec } from 'child_process'
 import { v4 as uuidv4 } from 'uuid'
 
 // JSON with commands
-const commandsFilePath = path.join(__dirname, '..', '..', 'commands.json')
+const commandsFilePath = process.env.NODE_ENV === 'production'
+  ? path.join(process.resourcesPath, 'commands.json')
+  : path.join(__dirname, '..', '..', 'commands.json')
 
 export class Command {
   static addNewCommand(command: any) {

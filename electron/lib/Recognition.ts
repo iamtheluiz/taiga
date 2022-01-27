@@ -4,7 +4,7 @@ import { Command } from './Command';
 
 const executablePath =
   process.env.NODE_ENV === 'production'
-    ? path.join(__dirname, 'TaigaRecognition', 'TaigaRecognition.exe')
+    ? path.join(process.resourcesPath, 'TaigaRecognition.exe')
     : path.join(__dirname, '..', '..', 'TaigaRecognition', 'bin', 'Release', 'net6.0', 'TaigaRecognition.exe')
 
 export class Recognition {

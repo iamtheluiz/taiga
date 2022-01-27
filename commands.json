@@ -1,9 +1,1 @@
-[
-  {
-    "name": "taiga open boxbox stream",
-    "type": "website",
-    "content": "https://www.twitch.tv/boxbox",
-    "id": "c3cf7746-35c1-408d-b390-613c77207eaa",
-    "default": false
-  }
-]
+[{"name":"taiga open genshin impact","type":"program","content":"\"C:\\Program Files\\Genshin Impact\\launcher.exe\"","id":"e5f9d690-2657-4ecb-a430-c5c9713e0725","default":false},{"name":"taiga open boxbox stream","type":"website","content":"https://www.twitch.tv/boxbox","id":"c3cf7746-35c1-408d-b390-613c77207eaa","default":false},{"name":"taiga open taiga workspace","type":"shell","content":"code \"C:\\Users\\iamth\\workspace\\taiga\"","id":"e458372c-53fa-415a-a8d2-f0c43e5ee7b3","default":false}]
