@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Container = styled.div`
   position: absolute;
@@ -9,10 +9,10 @@ export const Container = styled.div`
   background-color: #100f15f0;
   border-radius: 16px;
   padding: 16px;
-`;
+`
 
 export const Title = styled.strong`
   width: 100%;
-`;
+`
 
-export const Footer = styled.footer``;
+export const Footer = styled.footer``

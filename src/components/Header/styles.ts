@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const headerHeight = 32;
+export const headerHeight = 32
 
 export const Container = styled.header`
   width: 100%;

@@ -18,7 +18,7 @@ import {
   LeftContent,
   RightContent,
   CommandsContainer,
-  CommandContainer
+  CommandContainer,
 } from './styles'
 import { FiGlobe } from 'react-icons/fi'
 
@@ -31,13 +31,13 @@ export function Home() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    window.Main.send("get-commands", null)
-    window.Main.send("taiga-recognition-get-status", null)
+    window.Main.send('get-commands', null)
+    window.Main.send('taiga-recognition-get-status', null)
 
-    window.Main.on("update-commands", (data: any) => {
+    window.Main.on('update-commands', (data: any) => {
       setCommands(data)
     })
-    window.Main.on("taiga-recognition-status", (data: any) => {
+    window.Main.on('taiga-recognition-status', (data: any) => {
       setIsRecognizing(data.isRecognizing)
     })
   }, [])
@@ -47,7 +47,7 @@ export function Home() {
   }
 
   function handleRefreshCommands() {
-    window.Main.send("get-commands", null)
+    window.Main.send('get-commands', null)
   }
 
   function handleChangeImage(key: string) {
@@ -56,20 +56,20 @@ export function Home() {
   }
 
   function handleTaigaStart() {
-    window.Main.send("taiga-recognition", { action: "turn-on" })
+    window.Main.send('taiga-recognition', { action: 'turn-on' })
   }
 
   function handleTaigaStop() {
-    window.Main.send("taiga-recognition", { action: "turn-off" })
+    window.Main.send('taiga-recognition', { action: 'turn-off' })
   }
 
   function handleAddCommand() {
-    window.Main.send("taiga-recognition", { action: "turn-off" })
+    window.Main.send('taiga-recognition', { action: 'turn-off' })
     navigate('/new_command')
   }
 
   function handleRemoveCommand(command: any) {
-    window.Main.send("remove-command", { command })
+    window.Main.send('remove-command', { command })
   }
 
   return (
@@ -97,19 +97,31 @@ export function Home() {
         />
         <strong>Welcome!</strong>
         {isRecognizing ? (
-          <Button onClick={handleTaigaStop} style={{ backgroundColor: '#c53434'}} fullWidth>Stop Listening</Button>
+          <Button
+            onClick={handleTaigaStop}
+            style={{ backgroundColor: '#c53434' }}
+            fullWidth
+          >
+            Stop Listening
+          </Button>
         ) : (
-          <Button onClick={handleTaigaStart} style={{ backgroundColor: '#34c534'}} fullWidth>Start Listening</Button>
+          <Button
+            onClick={handleTaigaStart}
+            style={{ backgroundColor: '#34c534' }}
+            fullWidth
+          >
+            Start Listening
+          </Button>
         )}
-        <Button onClick={handleRefreshCommands} fullWidth>Refresh Commands</Button>
+        <Button onClick={handleRefreshCommands} fullWidth>
+          Refresh Commands
+        </Button>
       </LeftContent>
       <RightContent>
         <h1>Commands</h1>
         <br />
         <CommandsContainer>
-          {commands.length === 0 && (
-            <strong>0 commands found</strong>
-          )}
+          {commands.length === 0 && <strong>0 commands found</strong>}
           {commands.map(command => (
             <CommandContainer key={command.name}>
               {command.type === 'website' && <FiGlobe />}
@@ -125,7 +137,7 @@ export function Home() {
                     backgroundColor: '#c53434',
                     width: 38,
                     height: 38,
-                    padding: 0
+                    padding: 0,
                   }}
                 >
                   <FaTrash size={18} />
@@ -134,7 +146,9 @@ export function Home() {
             </CommandContainer>
           ))}
         </CommandsContainer>
-        <Button onClick={handleAddCommand} fullWidth>Add Command</Button>
+        <Button onClick={handleAddCommand} fullWidth>
+          Add Command
+        </Button>
       </RightContent>
     </Container>
   )

@@ -40,14 +40,15 @@ export const LeftContent = styled.div`
   justify-content: center;
   align-items: center;
 
-  button, strong {
+  button,
+  strong {
     text-align: center;
     margin-top: 12px;
   }
   strong {
     font-size: 20px;
   }
-`;
+`
 export const RightContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -55,17 +56,17 @@ export const RightContent = styled.div`
   padding: 16px;
   flex: 1;
   height: 100%;
-`;
+`
 
 export const CommandsContainer = styled.div`
   flex: 1;
-  width: 100%;  
+  width: 100%;
   overflow-y: auto;
 
   display: flex;
   flex-direction: column;
   gap: 6px;
-`;
+`
 
 export const CommandContainer = styled.div`
   display: flex;
@@ -77,4 +78,3 @@ export const CommandContainer = styled.div`
   border-radius: 12px;
   background-color: #ffffff40;
 `
-

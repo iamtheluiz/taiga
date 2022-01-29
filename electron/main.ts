@@ -16,7 +16,7 @@ const assetsPath =
     ? process.resourcesPath
     : app.getAppPath()
 
-function createWindow () {
+function createWindow() {
   log.debug('Creating window')
 
   mainWindow = new BrowserWindow({
@@ -29,8 +29,8 @@ function createWindow () {
       enableRemoteModule: true,
       nodeIntegration: false,
       contextIsolation: true,
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY
-    }
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+    },
   })
 
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
@@ -41,7 +41,7 @@ function createWindow () {
   })
 }
 
-async function registerListeners () {
+async function registerListeners() {
   log.debug('Registering listeners')
 
   const listenerLog = log.scope('Listener')
@@ -56,16 +56,18 @@ async function registerListeners () {
 
   ipcMain.on('open-dialog', async (_, message) => {
     listenerLog.info('open dialog: ', message)
-    const selectedFile = await dialog.showOpenDialog({ properties: ['openFile'] })
+    const selectedFile = await dialog.showOpenDialog({
+      properties: ['openFile'],
+    })
 
-    _.sender.send('open-dialog-response', selectedFile);
+    _.sender.send('open-dialog-response', selectedFile)
     senderLog.info('open dialog response: ', selectedFile)
   })
 
   ipcMain.on('get-commands', (_, message) => {
     listenerLog.info('get commands: ', message)
 
-    const commands = Command.getCommandList();
+    const commands = Command.getCommandList()
 
     _.sender.send('update-commands', commands)
     senderLog.info('update commands: ', commands)
@@ -106,11 +108,14 @@ async function registerListeners () {
   })
 
   ipcMain.on('taiga-recognition-get-status', (_, message) => {
-    _.sender.send('taiga-recognition-status', { isRecognizing: Recognition.isRecognizing })
+    _.sender.send('taiga-recognition-status', {
+      isRecognizing: Recognition.isRecognizing,
+    })
   })
 }
 
-app.on('ready', createWindow)
+app
+  .on('ready', createWindow)
   .whenReady()
   .then(() => {
     log.debug('App ready')

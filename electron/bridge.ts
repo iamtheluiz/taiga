@@ -9,22 +9,22 @@ export const api = {
    * The function below can accessed using `window.Main.sayHello`
    */
 
-  sendMessage: (message: string) => { 
+  sendMessage: (message: string) => {
     ipcRenderer.send('message', message)
   },
 
-  send: (channel: string, message: any) => { 
+  send: (channel: string, message: any) => {
     ipcRenderer.send(channel, message)
   },
 
-  handleCloseWindow () {
+  handleCloseWindow() {
     const window = remote.getCurrentWindow()
 
     window.close()
   },
 
-  handleMaximizeWindow () {
-    console.log(remote);
+  handleMaximizeWindow() {
+    console.log(remote)
     const window = remote.getCurrentWindow()
 
     if (!window.isMaximized()) {
@@ -34,7 +34,7 @@ export const api = {
     }
   },
 
-  handleMinimizeWindow () {
+  handleMinimizeWindow() {
     const window = remote.getCurrentWindow()
 
     window.minimize()
@@ -45,7 +45,7 @@ export const api = {
    */
   on: (channel: string, callback: Function) => {
     ipcRenderer.on(channel, (_, data) => callback(data))
-  }
+  },
 }
 
 contextBridge.exposeInMainWorld('Main', api)

@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import { ButtonProps } from '.'
 
 export const Container = styled.button<ButtonProps>`
-  width: ${props => props.fullWidth === true ? '100%' : 'auto'};
+  width: ${props => (props.fullWidth === true ? '100%' : 'auto')};
   height: 42px;
   padding: 0 16px;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +15,7 @@ export const Container = styled.button<ButtonProps>`
   border-radius: 8px;
   border: 0;
 
-  color: #FFF;
+  color: #fff;
   font-size: 16px;
   font-weight: bold;
 
