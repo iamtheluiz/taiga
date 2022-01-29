@@ -1,22 +1,22 @@
 import { FormEvent, useEffect, useState } from 'react'
-import { OpenDialogReturnValue } from 'electron/main';
+import { OpenDialogReturnValue } from 'electron/main'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../../components/Button'
 
 import { Container, File, Form, Input, InputControl, Select } from './styles'
-import { FaFileUpload } from 'react-icons/fa';
+import { FaFileUpload } from 'react-icons/fa'
 
 export function NewCommand() {
   const [name, setName] = useState('')
   const [type, setType] = useState('shell')
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState('')
 
   const navigate = useNavigate()
 
   useEffect(() => {
     window.Main.on('open-dialog-response', (data: OpenDialogReturnValue) => {
       if (!data.canceled) {
-        setContent(data.filePaths[0]);
+        setContent(data.filePaths[0])
       }
     })
   }, [])
@@ -30,7 +30,7 @@ export function NewCommand() {
         type,
         content,
       },
-    });
+    })
 
     navigate('/main_window')
   }
@@ -65,7 +65,7 @@ export function NewCommand() {
             <option value="website">Website</option>
           </Select>
         </InputControl>
-        {["shell", "website"].includes(type) && (
+        {['shell', 'website'].includes(type) && (
           <InputControl>
             <label htmlFor="content">Content</label>
             <Input
@@ -77,13 +77,13 @@ export function NewCommand() {
             />
           </InputControl>
         )}
-        {type === "program" && (
-          <InputControl
-            onClick={() => window.Main.send('open-dialog', null)}
-          >
+        {type === 'program' && (
+          <InputControl onClick={() => window.Main.send('open-dialog', null)}>
             <File>
               <FaFileUpload size={20} />
-              {content === '' ? 'Selecione um programa' : content.split('\\').pop()}
+              {content === ''
+                ? 'Selecione um programa'
+                : content.split('\\').pop()}
             </File>
           </InputControl>
         )}
