@@ -6,6 +6,7 @@
   "main": "./.webpack/main/index.js",
   "scripts": {
     "prepare": "husky install",
+    "commit": "git-cz",
     "start": "electron-forge start",
     "package": "electron-forge package && cd ./TaigaRecognition && dotnet publish -c Release -o ../out/Taiga-win32-x64/resources",
     "make": "electron-forge make",
@@ -63,7 +64,9 @@
     "@typescript-eslint/eslint-plugin": "4.27.0",
     "@typescript-eslint/parser": "4.27.0",
     "babel-loader": "8.2.2",
+    "commitizen": "^4.2.4",
     "cross-env": "7.0.3",
+    "cz-conventional-changelog": "3.3.0",
     "electron": "13.1.2",
     "eslint": "7.29.0",
     "eslint-config-prettier": "8.3.0",
@@ -85,6 +88,9 @@
     "wait-on": "5.3.0"
   },
   "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    },
     "forge": {
       "packagerConfig": {
         "name": "Taiga",
