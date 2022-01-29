@@ -4,3 +4,4 @@ packages
 .webpack
 out
 commands.json
+*.log
