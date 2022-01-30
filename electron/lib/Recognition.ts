@@ -50,12 +50,18 @@ export class Recognition {
 
   static stopRecognition() {
     recognitionLog.debug('stopRecognition - start')
-    this.ipc?.kill()
-    recognitionLog.debug('stopRecognition - kill process')
-    this.ipc = null
-    recognitionLog.debug('stopRecognition - define process as null')
 
-    this.isRecognizing = false
+    if (this.isRecognizing) {
+      this.ipc?.kill()
+      recognitionLog.debug('stopRecognition - kill process')
+      this.ipc = null
+      recognitionLog.debug('stopRecognition - define process as null')
+
+      this.isRecognizing = false
+    } else {
+      recognitionLog.debug('stopRecognition - already stopped')
+    }
+
     recognitionLog.debug('stopRecognition - end')
   }
 
