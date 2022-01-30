@@ -26,25 +26,30 @@ export class Recognition {
   static startRecognition() {
     recognitionLog.debug('startRecognition - start')
 
-    this.ipc = spawn(executablePath)
-    recognitionLog.debug('startRecognition - spawn Taiga Recognition')
+    if (!this.isRecognizing) {
+      this.ipc = spawn(executablePath)
+      recognitionLog.debug('startRecognition - spawn Taiga Recognition')
 
-    this.ipc.stdin.setDefaultEncoding('utf8')
-    recognitionLog.debug('startRecognition - set enconding')
+      this.ipc.stdin.setDefaultEncoding('utf8')
+      recognitionLog.debug('startRecognition - set enconding')
 
-    this.ipc.stdout.on('data', data => {
-      recognitionLog.debug('startRecognition - on data:', data)
-      const out = data
-        .toString()
-        .split('Recognized text: ')[1]
-        .replace(/(\r\n|\n|\r)/gm, '')
-      recognitionLog.info('startRecognition - recognized command name:', out)
+      this.ipc.stdout.on('data', data => {
+        recognitionLog.debug('startRecognition - on data:', data)
+        const out = data
+          .toString()
+          .split('Recognized text: ')[1]
+          .replace(/(\r\n|\n|\r)/gm, '')
+        recognitionLog.info('startRecognition - recognized command name:', out)
 
-      Command.executeCommand(out)
-    })
-    recognitionLog.debug('startRecognition - define on data receive')
+        Command.executeCommand(out)
+      })
+      recognitionLog.debug('startRecognition - define on data receive')
 
-    this.isRecognizing = true
+      this.isRecognizing = true
+    } else {
+      recognitionLog.debug('startRecognition - already started')
+    }
+
     recognitionLog.debug('startRecognition - end')
   }
 
