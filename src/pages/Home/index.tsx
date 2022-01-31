@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useCommand } from '../../contexts/command'
 
 import { taigaImages } from '../../utils/taigaImages'
 
@@ -26,17 +27,14 @@ export function Home() {
   const [isRecognizing, setIsRecognizing] = useState(false)
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [image, setImage] = useState('taiga-surprise')
-  const [commands, setCommands] = useState<any[]>([])
+
+  const { commands, refreshCommands, removeCommand } = useCommand()
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    window.Main.send('get-commands', null)
     window.Main.send('taiga-recognition-get-status', null)
 
-    window.Main.on('update-commands', (data: any) => {
-      setCommands(data)
-    })
     window.Main.on('taiga-recognition-status', (data: any) => {
       setIsRecognizing(data.isRecognizing)
     })
@@ -44,10 +42,6 @@ export function Home() {
 
   function handleOpenChangeImageModal() {
     setModalIsOpen(true)
-  }
-
-  function handleRefreshCommands() {
-    window.Main.send('get-commands', null)
   }
 
   function handleChangeImage(key: string) {
@@ -63,13 +57,9 @@ export function Home() {
     window.Main.send('taiga-recognition', { action: 'turn-off' })
   }
 
-  function handleAddCommand() {
+  function handleNavigateToNewCommand() {
     window.Main.send('taiga-recognition', { action: 'turn-off' })
     navigate('/new_command')
-  }
-
-  function handleRemoveCommand(command: any) {
-    window.Main.send('remove-command', { command })
   }
 
   return (
@@ -113,7 +103,7 @@ export function Home() {
             Start Listening
           </Button>
         )}
-        <Button onClick={handleRefreshCommands} fullWidth>
+        <Button onClick={refreshCommands} fullWidth>
           Refresh Commands
         </Button>
       </LeftContent>
@@ -132,7 +122,7 @@ export function Home() {
               </span>
               {command.default === false && (
                 <Button
-                  onClick={() => handleRemoveCommand(command)}
+                  onClick={() => removeCommand(command)}
                   style={{
                     backgroundColor: '#c53434',
                     width: 38,
@@ -146,7 +136,7 @@ export function Home() {
             </CommandContainer>
           ))}
         </CommandsContainer>
-        <Button onClick={handleAddCommand} fullWidth>
+        <Button onClick={handleNavigateToNewCommand} fullWidth>
           Add Command
         </Button>
       </RightContent>

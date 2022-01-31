@@ -1,4 +1,5 @@
 import { HashRouter, Routes, Route } from 'react-router-dom'
+import { CommandProvider } from './contexts/command'
 
 import { GlobalStyle } from './styles/GlobalStyle'
 
@@ -15,15 +16,17 @@ export function App() {
     <>
       <GlobalStyle />
       <Header />
-      <PageContainer>
-        <HashRouter>
-          <Routes>
-            <Route path="main_window" element={<Home />} />
-            <Route path="new_command" element={<NewCommand />} />
-            <Route path="*" element={<Home />} />
-          </Routes>
-        </HashRouter>
-      </PageContainer>
+      <CommandProvider>
+        <PageContainer>
+          <HashRouter>
+            <Routes>
+              <Route path="main_window" element={<Home />} />
+              <Route path="new_command" element={<NewCommand />} />
+              <Route path="*" element={<Home />} />
+            </Routes>
+          </HashRouter>
+        </PageContainer>
+      </CommandProvider>
     </>
   )
 }
