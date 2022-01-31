@@ -1,4 +1,4 @@
-import { createContext, FC, useContext, useState } from 'react'
+import { createContext, FC, useContext, useEffect, useState } from 'react'
 
 type Command = {
   id: string
@@ -11,6 +11,8 @@ type Command = {
 interface CommandContextProps {
   commands: any[]
   setCommands: (commands: Command[]) => void
+  removeCommand: (command: Command) => void
+  refreshCommands: () => void
 }
 
 const CommandContext = createContext({} as CommandContextProps)
@@ -18,11 +20,29 @@ const CommandContext = createContext({} as CommandContextProps)
 export const CommandProvider: FC = ({ children }) => {
   const [commands, setCommands] = useState<Command[]>([])
 
+  useEffect(() => {
+    window.Main.send('get-commands', null)
+
+    window.Main.on('update-commands', (data: any) => {
+      setCommands(data)
+    })
+  }, [])
+
+  function refreshCommands() {
+    window.Main.send('get-commands', null)
+  }
+
+  function removeCommand(command: any) {
+    window.Main.send('remove-command', { command })
+  }
+
   return (
     <CommandContext.Provider
       value={{
         commands,
         setCommands,
+        refreshCommands,
+        removeCommand,
       }}
     >
       {children}
