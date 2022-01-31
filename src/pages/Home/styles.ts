@@ -11,25 +11,6 @@ export const Container = styled.div`
   align-items: center;
 `
 
-export const ModalBody = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  justify-items: center;
-  gap: 16px;
-`
-
-export const Image = styled.div`
-  width: 240px;
-  height: 240px;
-  border-radius: 50%;
-  background-position: 50% 50%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  cursor: pointer;
-`
-
 export const LeftContent = styled.div`
   width: 360px;
   height: 100%;
@@ -58,7 +39,7 @@ export const RightContent = styled.div`
   height: 100%;
 `
 
-export const CommandsContainer = styled.div`
+export const CommandList = styled.div`
   flex: 1;
   width: 100%;
   overflow-y: auto;
@@ -66,15 +47,4 @@ export const CommandsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
-`
-
-export const CommandContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-
-  width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  background-color: #ffffff40;
 `
