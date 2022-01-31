@@ -4,13 +4,10 @@ import { useCommand } from '../../contexts/command'
 
 import { taigaImages } from '../../utils/taigaImages'
 
-// Icons
-import { BsTerminalFill } from 'react-icons/bs'
-import { FaLaptop, FaTrash } from 'react-icons/fa'
-
 // Components
-import { Button } from '../../components/Button'
 import Modal from '../../components/Modal'
+import { Button } from '../../components/Button'
+import { CommandItem } from '../../components/CommandItem'
 
 import {
   Container,
@@ -18,17 +15,15 @@ import {
   Image,
   LeftContent,
   RightContent,
-  CommandsContainer,
-  CommandContainer,
+  CommandList,
 } from './styles'
-import { FiGlobe } from 'react-icons/fi'
 
 export function Home() {
   const [isRecognizing, setIsRecognizing] = useState(false)
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [image, setImage] = useState('taiga-surprise')
 
-  const { commands, refreshCommands, removeCommand } = useCommand()
+  const { commands, refreshCommands } = useCommand()
 
   const navigate = useNavigate()
 
@@ -110,32 +105,12 @@ export function Home() {
       <RightContent>
         <h1>Commands</h1>
         <br />
-        <CommandsContainer>
+        <CommandList>
           {commands.length === 0 && <strong>0 commands found</strong>}
           {commands.map(command => (
-            <CommandContainer key={command.name}>
-              {command.type === 'website' && <FiGlobe />}
-              {command.type === 'shell' && <BsTerminalFill />}
-              {command.type === 'program' && <FaLaptop />}
-              <span style={{ flex: 1 }}>
-                {command.type} - {command.name}
-              </span>
-              {command.default === false && (
-                <Button
-                  onClick={() => removeCommand(command)}
-                  style={{
-                    backgroundColor: '#c53434',
-                    width: 38,
-                    height: 38,
-                    padding: 0,
-                  }}
-                >
-                  <FaTrash size={18} />
-                </Button>
-              )}
-            </CommandContainer>
+            <CommandItem key={command.id} command={command} />
           ))}
-        </CommandsContainer>
+        </CommandList>
         <Button onClick={handleNavigateToNewCommand} fullWidth>
           Add Command
         </Button>

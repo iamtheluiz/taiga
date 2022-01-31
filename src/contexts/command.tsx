@@ -1,15 +1,15 @@
 import { createContext, FC, useContext, useEffect, useState } from 'react'
 
-type Command = {
+export type Command = {
   id: string
   name: string
-  type: 'shell' | 'program' | 'Website'
+  type: 'shell' | 'program' | 'website'
   content: any
   default: boolean
 }
 
 interface CommandContextProps {
-  commands: any[]
+  commands: Command[]
   setCommands: (commands: Command[]) => void
   removeCommand: (command: Command) => void
   refreshCommands: () => void
@@ -32,7 +32,7 @@ export const CommandProvider: FC = ({ children }) => {
     window.Main.send('get-commands', null)
   }
 
-  function removeCommand(command: any) {
+  function removeCommand(command: Command) {
     window.Main.send('remove-command', { command })
   }
 
