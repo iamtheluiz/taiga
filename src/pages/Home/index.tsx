@@ -5,18 +5,12 @@ import { useCommand } from '../../contexts/command'
 import { taigaImages } from '../../utils/taigaImages'
 
 // Components
-import Modal from '../../components/Modal'
 import { Button } from '../../components/Button'
 import { CommandItem } from '../../components/CommandItem'
+import { TaigaImagesModal } from '../../components/TaigaImagesModal'
 
-import {
-  Container,
-  ModalBody,
-  Image,
-  LeftContent,
-  RightContent,
-  CommandList,
-} from './styles'
+import { Container, LeftContent, RightContent, CommandList } from './styles'
+import { Image } from '../../styles/GlobalComponents'
 
 export function Home() {
   const [isRecognizing, setIsRecognizing] = useState(false)
@@ -39,11 +33,6 @@ export function Home() {
     setModalIsOpen(true)
   }
 
-  function handleChangeImage(key: string) {
-    setImage(key)
-    setModalIsOpen(false)
-  }
-
   function handleTaigaStart() {
     window.Main.send('taiga-recognition', { action: 'turn-on' })
   }
@@ -60,18 +49,7 @@ export function Home() {
   return (
     <Container>
       {modalIsOpen && (
-        <Modal title="Select a Image" setIsOpen={setModalIsOpen}>
-          <ModalBody>
-            {Object.keys(taigaImages).map(key => (
-              <Image
-                style={{
-                  backgroundImage: `url(${taigaImages[key].default})`,
-                }}
-                onClick={() => handleChangeImage(key)}
-              />
-            ))}
-          </ModalBody>
-        </Modal>
+        <TaigaImagesModal setIsOpen={setModalIsOpen} setImage={setImage} />
       )}
       <LeftContent>
         <Image
