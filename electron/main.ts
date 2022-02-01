@@ -5,6 +5,7 @@ import { log } from './logger'
 
 import { Communication } from './lib/Communication'
 import { Recognition } from './lib/Recognition'
+import { Command } from './lib/Command'
 
 let mainWindow: BrowserWindow | null
 
@@ -15,6 +16,8 @@ const assetsPath =
   process.env.NODE_ENV === 'production'
     ? process.resourcesPath
     : app.getAppPath()
+
+Command.createCommandsFile()
 
 function createWindow() {
   log.debug('Creating window')

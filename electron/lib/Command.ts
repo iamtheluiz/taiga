@@ -4,6 +4,7 @@ import { exec } from 'child_process'
 import { v4 as uuidv4 } from 'uuid'
 
 import { log } from '../logger'
+import { defaultCommands } from '../config/defaultCommands'
 
 // JSON with commands
 const commandsFilePath =
@@ -14,6 +15,29 @@ const commandsFilePath =
 const commandLog = log.scope('Command')
 
 export class Command {
+  static createCommandsFile() {
+    commandLog.debug('createCommandsFile - start')
+
+    if (!fs.existsSync(commandsFilePath)) {
+      commandLog.debug("createCommandsFile - command file doesn't exist")
+
+      try {
+        const newFileContent = JSON.stringify(defaultCommands)
+
+        commandLog.debug("createCommandsFile - creating 'commands.json' file")
+        fs.writeFileSync(commandsFilePath, newFileContent)
+
+        commandLog.debug('createCommandsFile - success')
+      } catch (error) {
+        commandLog.error('createCommandsFile - error creating file', error)
+      }
+    } else {
+      commandLog.debug('createCommandsFile - command file already exist')
+    }
+
+    commandLog.debug('createCommandsFile - end')
+  }
+
   static addNewCommand(command: any) {
     commandLog.info('addNewCommand - received input:', command)
 

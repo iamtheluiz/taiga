@@ -1,12 +1,6 @@
 import { createContext, FC, useContext, useEffect, useState } from 'react'
 
-export type Command = {
-  id: string
-  name: string
-  type: 'shell' | 'program' | 'website'
-  content: any
-  default: boolean
-}
+import { Command } from '../../types'
 
 interface CommandContextProps {
   commands: Command[]
