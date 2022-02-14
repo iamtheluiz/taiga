@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCommand } from '../../contexts/command'
 
@@ -13,36 +13,27 @@ import { Container, LeftContent, RightContent, CommandList } from './styles'
 import { Image } from '../../styles/GlobalComponents'
 
 export function Home() {
-  const [isRecognizing, setIsRecognizing] = useState(false)
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const [image, setImage] = useState('taiga-surprise')
 
-  const { commands, refreshCommands } = useCommand()
+  const { commands, refreshCommands, socket, isRecognizing } = useCommand()
 
   const navigate = useNavigate()
-
-  useEffect(() => {
-    window.Main.send('taiga-recognition-get-status', null)
-
-    window.Main.on('taiga-recognition-status', (data: any) => {
-      setIsRecognizing(data.isRecognizing)
-    })
-  }, [])
 
   function handleOpenChangeImageModal() {
     setModalIsOpen(true)
   }
 
   function handleTaigaStart() {
-    window.Main.send('taiga-recognition', { action: 'turn-on' })
+    socket.emit('taiga-recognition', { action: 'turn-on' })
   }
 
   function handleTaigaStop() {
-    window.Main.send('taiga-recognition', { action: 'turn-off' })
+    socket.emit('taiga-recognition', { action: 'turn-off' })
   }
 
   function handleNavigateToNewCommand() {
-    window.Main.send('taiga-recognition', { action: 'turn-off' })
+    socket.emit('taiga-recognition', { action: 'turn-off' })
     navigate('/new_command')
   }
 

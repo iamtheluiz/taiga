@@ -1,33 +1,46 @@
 import { createContext, FC, useContext, useEffect, useState } from 'react'
+import io, { Socket } from 'socket.io-client'
 
 import { Command } from '../../types'
 
 interface CommandContextProps {
   commands: Command[]
   setCommands: (commands: Command[]) => void
+  isRecognizing: boolean
+  setIsRecognizing: (isRecognizing: boolean) => void
   removeCommand: (command: Command) => void
   refreshCommands: () => void
+  socket: Socket
 }
 
 const CommandContext = createContext({} as CommandContextProps)
 
 export const CommandProvider: FC = ({ children }) => {
   const [commands, setCommands] = useState<Command[]>([])
+  const [isRecognizing, setIsRecognizing] = useState(false)
+
+  const socket = io('http://localhost:2707')
 
   useEffect(() => {
-    window.Main.send('get-commands', null)
+    socket.emit('get-commands', null)
+    socket.emit('taiga-recognition-get-status', null)
 
-    window.Main.on('update-commands', (data: any) => {
+    socket.on('update-commands', (data: any) => {
       setCommands(data)
+    })
+
+    socket.on('taiga-recognition-status', (data: any) => {
+      console.log(data)
+      setIsRecognizing(data.isRecognizing)
     })
   }, [])
 
   function refreshCommands() {
-    window.Main.send('get-commands', null)
+    socket.emit('get-commands', null)
   }
 
   function removeCommand(command: Command) {
-    window.Main.send('remove-command', { command })
+    socket.emit('remove-command', { command })
   }
 
   return (
@@ -35,8 +48,11 @@ export const CommandProvider: FC = ({ children }) => {
       value={{
         commands,
         setCommands,
+        isRecognizing,
+        setIsRecognizing,
         refreshCommands,
         removeCommand,
+        socket,
       }}
     >
       {children}

@@ -5,6 +5,7 @@ import { Button } from '../../components/Button'
 
 import { Container, File, Form, Input, InputControl, Select } from './styles'
 import { FaFileUpload } from 'react-icons/fa'
+import { useCommand } from '../../contexts/command'
 
 export function NewCommand() {
   const [name, setName] = useState('')
@@ -12,9 +13,10 @@ export function NewCommand() {
   const [content, setContent] = useState('')
 
   const navigate = useNavigate()
+  const { socket } = useCommand()
 
   useEffect(() => {
-    window.Main.on('open-dialog-response', (data: OpenDialogReturnValue) => {
+    socket.on('open-dialog-response', (data: OpenDialogReturnValue) => {
       if (!data.canceled) {
         setContent(data.filePaths[0])
       }
@@ -24,7 +26,7 @@ export function NewCommand() {
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
-    window.Main.send('add-new-command', {
+    socket.emit('add-new-command', {
       command: {
         name,
         type,
@@ -78,7 +80,7 @@ export function NewCommand() {
           </InputControl>
         )}
         {type === 'program' && (
-          <InputControl onClick={() => window.Main.send('open-dialog', null)}>
+          <InputControl onClick={() => socket.emit('open-dialog', null)}>
             <File>
               <FaFileUpload size={20} />
               {content === ''
