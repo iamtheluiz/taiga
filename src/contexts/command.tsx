@@ -1,9 +1,12 @@
 import { createContext, FC, useContext, useEffect, useState } from 'react'
+import { OpenDialogReturnValue } from 'electron/main'
 import io, { Socket } from 'socket.io-client'
 
 import { Command } from '../../types'
 
 interface CommandContextProps {
+  newCommand: Omit<Command, 'id'>
+  setNewCommand: (content: Omit<Command, 'id'>) => void
   commands: Command[]
   setCommands: (commands: Command[]) => void
   isRecognizing: boolean
@@ -19,6 +22,14 @@ export const CommandProvider: FC = ({ children }) => {
   const [commands, setCommands] = useState<Command[]>([])
   const [isRecognizing, setIsRecognizing] = useState(false)
 
+  // New Command
+  const [newCommand, setNewCommand] = useState<Omit<Command, 'id'>>({
+    name: '',
+    content: '',
+    type: 'shell',
+    default: false,
+  })
+
   const socket = io('http://localhost:2707')
 
   useEffect(() => {
@@ -33,6 +44,15 @@ export const CommandProvider: FC = ({ children }) => {
       console.log(data)
       setIsRecognizing(data.isRecognizing)
     })
+
+    socket.on('open-dialog-response', (data: OpenDialogReturnValue) => {
+      if (!data.canceled) {
+        setNewCommand({
+          ...newCommand,
+          content: data.filePaths[0],
+        })
+      }
+    })
   }, [])
 
   function refreshCommands() {
@@ -46,6 +66,8 @@ export const CommandProvider: FC = ({ children }) => {
   return (
     <CommandContext.Provider
       value={{
+        newCommand,
+        setNewCommand,
         commands,
         setCommands,
         isRecognizing,
