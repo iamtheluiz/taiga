@@ -11,7 +11,7 @@ import { Window } from './lib/Window'
 Command.createCommandsFile()
 
 // Websocket
-const io = new Server({
+export const io = new Server({
   cors: {
     origin: '*',
     methods: ['GET', 'POST', 'DELETE'],

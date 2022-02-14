@@ -2,9 +2,12 @@ import fs from 'fs'
 import path from 'path'
 import { exec } from 'child_process'
 import { v4 as uuidv4 } from 'uuid'
+import { Command as CommandType } from '../../types'
 
 import { log } from '../logger'
 import { defaultCommands } from '../config/defaultCommands'
+
+import { Recognition } from './Recognition'
 
 // JSON with commands
 const commandsFilePath =
@@ -68,14 +71,14 @@ export class Command {
     }
   }
 
-  static getCommandList() {
+  static getCommandList(): CommandType[] {
     commandLog.debug('getCommandList')
 
     const file = fs.readFileSync(commandsFilePath)
     const stringText = file.toString()
     commandLog.info('getCommandList - file content: ', stringText)
 
-    const commands = JSON.parse(stringText)
+    const commands: CommandType[] = JSON.parse(stringText)
     commandLog.info('getCommandList - converted commands: ', commands)
 
     return commands
@@ -88,6 +91,13 @@ export class Command {
 
     const [command] = commands.filter((command: any) => command.name === name)
     commandLog.info('executeCommand - command content: ', command)
+
+    // Is a default command
+    if (command.default) {
+      commandLog.debug('executeCommand - default command')
+      this.handleDefaultCommand(command)
+      return command
+    }
 
     switch (command.type) {
       case 'shell':
@@ -128,5 +138,16 @@ export class Command {
     // Write new command list to JSON file
     fs.writeFileSync(commandsFilePath, JSON.stringify(commands))
     commandLog.debug('removeCommand - write new command list to file')
+  }
+
+  static handleDefaultCommand(command: CommandType) {
+    switch (command.content) {
+      case 'stop':
+        Recognition.stopRecognition()
+        break
+
+      default:
+        break
+    }
   }
 }

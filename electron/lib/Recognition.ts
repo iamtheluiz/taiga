@@ -2,6 +2,7 @@ import path from 'path'
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process'
 import { Command } from './Command'
 import { log } from '../logger'
+import { io } from '../main'
 
 const executablePath =
   process.env.NODE_ENV === 'production'
@@ -34,12 +35,12 @@ export class Recognition {
       recognitionLog.debug('startRecognition - set enconding')
 
       this.ipc.stdout.on('data', data => {
-        recognitionLog.debug('startRecognition - on data:', data)
+        recognitionLog.debug('Recognition - on data:', data)
         const out = data
           .toString()
           .split('Recognized text: ')[1]
           .replace(/(\r\n|\n|\r)/gm, '')
-        recognitionLog.info('startRecognition - recognized command name:', out)
+        recognitionLog.info('Recognition - recognized command name:', out)
 
         Command.executeCommand(out)
       })
@@ -50,6 +51,9 @@ export class Recognition {
       recognitionLog.debug('startRecognition - already started')
     }
 
+    io.emit('taiga-recognition-status', {
+      isRecognizing: true,
+    })
     recognitionLog.debug('startRecognition - end')
   }
 
@@ -67,6 +71,9 @@ export class Recognition {
       recognitionLog.debug('stopRecognition - already stopped')
     }
 
+    io.emit('taiga-recognition-status', {
+      isRecognizing: false,
+    })
     recognitionLog.debug('stopRecognition - end')
   }
 

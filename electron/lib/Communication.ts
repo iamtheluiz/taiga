@@ -29,7 +29,7 @@ export class Communication {
       properties: ['openFile'],
     })
 
-    socket.emit('open-dialog-response', selectedFile)
+    socket.broadcast.emit('open-dialog-response', selectedFile)
     senderLog.info('open dialog response: ', selectedFile)
   }
 
