@@ -1,21 +1,14 @@
 import { app, dialog } from 'electron'
-import path from 'path'
 import fs from 'fs'
 import electronLog from 'electron-log'
+import { logFilePath } from './config/config'
 
-// Log config
-const logPath = path.join(
-  process.env.NODE_ENV === 'production'
-    ? process.resourcesPath
-    : app.getAppPath(),
-  'logs/main.log'
-)
-electronLog.transports.file.resolvePath = () => logPath
+electronLog.transports.file.resolvePath = () => logFilePath
 
 // Reset log on development env
 if (process.env.NODE_ENV !== 'production') {
-  if (fs.existsSync(logPath)) {
-    fs.unlinkSync(logPath)
+  if (fs.existsSync(logFilePath)) {
+    fs.unlinkSync(logFilePath)
   }
 }
 
