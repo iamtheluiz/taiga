@@ -1,19 +1,15 @@
 import fs from 'fs'
-import path from 'path'
 import { exec } from 'child_process'
 import { v4 as uuidv4 } from 'uuid'
 import { Command as CommandType } from '../../types'
 
 import { log } from '../logger'
-import { defaultCommands } from '../config/defaultCommands'
 
 import { Recognition } from './Recognition'
 
-// JSON with commands
-const commandsFilePath =
-  process.env.NODE_ENV === 'production'
-    ? path.join(process.resourcesPath, 'commands.json')
-    : path.join(__dirname, '..', '..', 'commands.json')
+// Config files
+import { commandsFilePath } from '../config/config'
+import { defaultCommands } from '../config/defaultCommands'
 
 const commandLog = log.scope('Command')
 
