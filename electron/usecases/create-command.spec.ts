@@ -1,6 +1,6 @@
-import { InMemoryCommandsRepository } from '../../tests/repositories/in-memory-commands-repository'
 import { Command } from '../entities/Command'
 import { CreateCommand } from './create-command'
+import { InMemoryCommandsRepository } from '../infra/repositories/in-memory-commands-repository'
 
 describe('Create command use case', () => {
   it('should create a new command', async () => {

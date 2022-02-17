@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { RemoveCommand } from './remove-command'
-import { InMemoryCommandsRepository } from '../../tests/repositories/in-memory-commands-repository'
 import { Command } from '../entities/Command'
+import { InMemoryCommandsRepository } from '../infra/repositories/in-memory-commands-repository'
 
 describe('Remove command use case', () => {
   it('should remove a command', async () => {

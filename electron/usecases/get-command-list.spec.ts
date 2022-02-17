@@ -1,6 +1,6 @@
-import { InMemoryCommandsRepository } from '../../tests/repositories/in-memory-commands-repository'
 import { Command } from '../entities/Command'
 import { GetCommandList } from './get-command-list'
+import { InMemoryCommandsRepository } from '../infra/repositories/in-memory-commands-repository'
 
 describe('Get command list use case', () => {
   it('should return a empty array', async () => {

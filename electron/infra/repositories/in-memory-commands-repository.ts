@@ -1,5 +1,5 @@
-import { Command } from '../../electron/entities/Command'
-import { CommandsRepository } from '../../electron/repositories/CommandsRepository'
+import { Command } from '../../entities/Command'
+import { CommandsRepository } from '../../repositories/CommandsRepository'
 
 export class InMemoryCommandsRepository implements CommandsRepository {
   public commands: Command[] = []
