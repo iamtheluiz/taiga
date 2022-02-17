@@ -24,6 +24,10 @@ export class InMemoryCommandsRepository implements CommandsRepository {
     return command
   }
 
+  async list(): Promise<Command[]> {
+    return this.commands
+  }
+
   async save(command: Command): Promise<void> {
     this.commands.push(command)
   }
