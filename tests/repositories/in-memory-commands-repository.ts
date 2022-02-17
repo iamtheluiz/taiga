@@ -27,4 +27,10 @@ export class InMemoryCommandsRepository implements CommandsRepository {
   async save(command: Command): Promise<void> {
     this.commands.push(command)
   }
+
+  async removeById(id: string): Promise<void> {
+    const filteredCommands = this.commands.filter(command => command.id !== id)
+
+    this.commands = filteredCommands
+  }
 }

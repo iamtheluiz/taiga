@@ -4,4 +4,5 @@ export interface CommandsRepository {
   findById(id: string): Promise<Command | null>
   findByName(name: string): Promise<Command | null>
   save(command: Command): Promise<void>
+  removeById(id: string): Promise<void>
 }
