@@ -1,7 +1,9 @@
+import { CommandExecutionProvider } from '../../providers/CommandExecutionProvider'
 import { CommunicationProvider } from '../../providers/CommunicationProvider'
 import { CommandsRepository } from '../../repositories/CommandsRepository'
 
 import { CreateCommand } from '../../usecases/create-command'
+import { ExecuteCommand } from '../../usecases/execute-command'
 import { GetCommandList } from '../../usecases/get-command-list'
 import { RemoveCommand } from '../../usecases/remove-command'
 
@@ -13,12 +15,14 @@ type CreateCommandDTO = {
 }
 
 export function registerCommandHandlers(
+  commandsRepository: CommandsRepository,
   communicationProvider: CommunicationProvider,
-  commandsRepository: CommandsRepository
+  commandExecutionProvider: CommandExecutionProvider
 ) {
   communicationProvider.onMessage('command:list', handleGetCommands)
   communicationProvider.onMessage('command:remove', handleDeleteCommand)
   communicationProvider.onMessage('command:create', handleCreateCommand)
+  communicationProvider.onMessage('command:execute', handleExecuteCommand)
 
   async function handleGetCommands() {
     const commands = await new GetCommandList(commandsRepository).execute()
@@ -39,5 +43,12 @@ export function registerCommandHandlers(
 
     const commands = await new GetCommandList(commandsRepository).execute()
     communicationProvider.sendMessage('command:update-list', commands)
+  }
+
+  async function handleExecuteCommand(id: string) {
+    await new ExecuteCommand(
+      commandsRepository,
+      commandExecutionProvider
+    ).execute(id)
   }
 }

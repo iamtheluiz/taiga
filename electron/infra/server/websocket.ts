@@ -1,6 +1,7 @@
 import { Server } from 'socket.io'
 import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 import { registerCommandHandlers } from '../handlers/CommandHandler'
+import { MainCommandExecutionProvider } from '../providers/MainCommandExecutionProvider'
 import { WebsocketCommunicationProvider } from '../providers/WebsocketCommunicationProvider'
 import { InMemoryCommandsRepository } from '../repositories/in-memory-commands-repository'
 
@@ -13,6 +14,7 @@ export class WebsocketServer {
   constructor() {
     if (WebsocketServer.io === undefined) {
       const commandsRepository = new InMemoryCommandsRepository()
+      const commandExecutionProvider = new MainCommandExecutionProvider()
 
       WebsocketServer.io = new Server({
         cors: {
@@ -29,7 +31,11 @@ export class WebsocketServer {
           socket
         )
 
-        registerCommandHandlers(communicationProvider, commandsRepository)
+        registerCommandHandlers(
+          commandsRepository,
+          communicationProvider,
+          commandExecutionProvider
+        )
       })
     }
   }
