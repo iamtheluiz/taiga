@@ -1,6 +1,6 @@
 import path from 'path'
 import { app, BrowserWindow } from 'electron'
-import { log } from '../logger'
+import { log } from './logger'
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string

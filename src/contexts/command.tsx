@@ -33,15 +33,13 @@ export const CommandProvider: FC = ({ children }) => {
   const socket = io('http://localhost:2707')
 
   useEffect(() => {
-    socket.emit('get-commands', null)
     socket.emit('taiga-recognition-get-status', null)
 
-    socket.on('update-commands', (data: any) => {
+    socket.on('command:update-list', (data: any) => {
       setCommands(data)
     })
 
     socket.on('taiga-recognition-status', (data: any) => {
-      console.log(data)
       setIsRecognizing(data.isRecognizing)
     })
 
@@ -53,14 +51,16 @@ export const CommandProvider: FC = ({ children }) => {
         })
       }
     })
+
+    refreshCommands()
   }, [])
 
   function refreshCommands() {
-    socket.emit('get-commands', null)
+    socket.emit('command:list', null)
   }
 
   function removeCommand(command: Command) {
-    socket.emit('remove-command', { command })
+    socket.emit('command:remove', command.id)
   }
 
   return (

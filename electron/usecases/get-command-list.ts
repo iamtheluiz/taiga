@@ -7,6 +7,10 @@ export class GetCommandList {
   async execute() {
     const commands = await this.commandsRepository.list()
 
+    if (commands) {
+      throw new Error('Just a test')
+    }
+
     return commands
   }
 }

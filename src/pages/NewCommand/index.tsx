@@ -13,9 +13,7 @@ export function NewCommand() {
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
-    socket.emit('add-new-command', {
-      command: newCommand,
-    })
+    socket.emit('command:create', newCommand)
 
     navigate('/main_window')
   }
