@@ -1,6 +1,7 @@
-import { Command } from '../../entities/Command'
 import { CommunicationProvider } from '../../providers/CommunicationProvider'
 import { CommandsRepository } from '../../repositories/CommandsRepository'
+
+import { CreateCommand } from '../../usecases/create-command'
 import { GetCommandList } from '../../usecases/get-command-list'
 import { RemoveCommand } from '../../usecases/remove-command'
 
@@ -34,8 +35,7 @@ export function registerCommandHandlers(
   }
 
   async function handleCreateCommand(data: CreateCommandDTO) {
-    const command = new Command(data)
-    await commandsRepository.save(command)
+    await new CreateCommand(commandsRepository).execute(data)
 
     const commands = await new GetCommandList(commandsRepository).execute()
     communicationProvider.sendMessage('command:update-list', commands)
