@@ -1,14 +1,35 @@
-import { FormEvent } from 'react'
+import { FormEvent, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { OpenDialogReturnValue } from 'electron/main'
+import { useCommand } from '../../contexts/command'
+
 import { Button } from '../../components/Button'
 
-import { Container, File, Form, Input, InputControl, Select } from './styles'
 import { FaFileUpload } from 'react-icons/fa'
-import { useCommand } from '../../contexts/command'
+import { Container, File, Form, Input, InputControl, Select } from './styles'
 
 export function NewCommand() {
   const navigate = useNavigate()
   const { socket, newCommand, setNewCommand } = useCommand()
+
+  useEffect(() => {
+    socket.on(
+      'electron:dialog-selected-file',
+      (selectedFile: OpenDialogReturnValue) => {
+        // @ts-ignore
+        setNewCommand((oldNewCommand: any) => {
+          return {
+            ...oldNewCommand,
+            content: selectedFile.filePaths[0],
+          }
+        })
+      }
+    )
+  }, [])
+
+  async function handleGetProgram() {
+    socket.emit('electron:open-dialog')
+  }
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -77,7 +98,7 @@ export function NewCommand() {
           </InputControl>
         )}
         {newCommand.type === 'program' && (
-          <InputControl onClick={() => socket.emit('open-dialog', null)}>
+          <InputControl onClick={handleGetProgram}>
             <File>
               <FaFileUpload size={20} />
               {newCommand.content === ''

@@ -1,12 +1,11 @@
 import { createContext, FC, useContext, useEffect, useState } from 'react'
 import { OpenDialogReturnValue } from 'electron/main'
+import { Command } from '../../electron/entities/Command'
 import io, { Socket } from 'socket.io-client'
-
-import { Command } from '../../types'
 
 interface CommandContextProps {
   newCommand: Omit<Command, 'id'>
-  setNewCommand: (content: Omit<Command, 'id'>) => void
+  setNewCommand: (content: Omit<Command, 'id'>) => void | Omit<Command, 'id'>
   commands: Command[]
   setCommands: (commands: Command[]) => void
   isRecognizing: boolean
