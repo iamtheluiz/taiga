@@ -1,13 +1,8 @@
 import { app, BrowserWindow } from 'electron'
-import { WebsocketServer } from './infra/server/websocket'
+import { Infra } from './infra/initialize'
 
 import { log } from './lib/logger'
-
 import { Window } from './lib/Window'
-
-const websocket = new WebsocketServer()
-
-websocket.listen()
 
 app
   .on('ready', Window.createWindow)
@@ -31,3 +26,6 @@ app.on('activate', () => {
     Window.createWindow()
   }
 })
+
+// Create application
+Infra.initialize()
