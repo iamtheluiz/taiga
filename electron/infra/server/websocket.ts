@@ -1,6 +1,7 @@
 import { Server } from 'socket.io'
 import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 import { registerCommandHandlers } from '../handlers/CommandHandler'
+import { registerElectronHandlers } from '../handlers/ElectronHandler'
 import { MainCommandExecutionProvider } from '../providers/MainCommandExecutionProvider'
 import { WebsocketCommunicationProvider } from '../providers/WebsocketCommunicationProvider'
 import { InMemoryCommandsRepository } from '../repositories/in-memory-commands-repository'
@@ -36,6 +37,7 @@ export class WebsocketServer {
           communicationProvider,
           commandExecutionProvider
         )
+        registerElectronHandlers(communicationProvider)
       })
     }
   }
