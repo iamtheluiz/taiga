@@ -20,7 +20,7 @@ export function NewCommand() {
         setNewCommand((oldNewCommand: any) => {
           return {
             ...oldNewCommand,
-            content: selectedFile.filePaths[0],
+            content: selectedFile.filePaths[0] || oldNewCommand.content,
           }
         })
       }
