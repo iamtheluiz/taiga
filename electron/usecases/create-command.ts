@@ -20,10 +20,7 @@ export class CreateCommand {
       throw new Error('Command name already exists!')
     }
 
-    const command = new Command({
-      ...commandData,
-      default: false,
-    })
+    const command = new Command(commandData)
 
     await this.commandsRepository.save(command)
 

@@ -44,7 +44,6 @@ describe('Start recognition use case', () => {
       name: 'taiga open github',
       content: 'https://github.com',
       type: 'website',
-      default: false,
     })
     commandsRepository.save(command)
 

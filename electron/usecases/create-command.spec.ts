@@ -20,7 +20,6 @@ describe('Create command use case', () => {
     expect(storedCommand.content).toBe(commandData.content)
     expect(storedCommand.type).toBe(commandData.type)
     expect(storedCommand.id).toBeTruthy()
-    expect(storedCommand.default).toBe(false)
   })
 
   it('should not create a duplicated command', async () => {

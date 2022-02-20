@@ -23,7 +23,7 @@ export const CommandItem: FC<CommandItemProps> = ({ command }) => {
 
   return (
     <Container key={command.name} command={command}>
-      {command.type === '' && command.default && <FiSettings size={iconSize} />}
+      {command.type === 'default' && <FiSettings size={iconSize} />}
       {command.type === 'website' && <FiGlobe size={iconSize} />}
       {command.type === 'shell' && <BsTerminalFill size={iconSize} />}
       {command.type === 'program' && <FaLaptop size={iconSize} />}

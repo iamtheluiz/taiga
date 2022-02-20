@@ -1,11 +1,9 @@
-import { Command } from '../../types'
+import { Command } from '../entities/Command'
 
-export const defaultCommands: Command[] = [
-  {
-    id: 'default-1',
-    name: 'Taiga stop recognition',
-    content: 'stop',
-    type: '',
-    default: true,
-  },
-]
+const stopCommand = new Command({
+  name: 'Taiga stop recognition',
+  content: 'recognition:stop',
+  type: 'default',
+})
+
+export const defaultCommands = [stopCommand]

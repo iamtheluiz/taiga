@@ -19,7 +19,6 @@ describe('Get command list use case', () => {
       name: 'taiga open figma',
       type: 'website',
       content: 'https://figma.com/',
-      default: false,
     })
 
     await commandsRepository.save(figmaCommand)
@@ -42,13 +41,11 @@ describe('Get command list use case', () => {
       name: 'taiga open github',
       type: 'website',
       content: 'https://github.com/',
-      default: false,
     })
     const twitchCommand = new Command({
       name: 'taiga open twitch',
       type: 'website',
       content: 'https://twitch.tv/',
-      default: false,
     })
 
     await commandsRepository.save(githubCommand)
