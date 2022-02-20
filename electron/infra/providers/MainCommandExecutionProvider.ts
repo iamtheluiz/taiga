@@ -4,7 +4,7 @@ import { CommandExecutionProvider } from '../../providers/CommandExecutionProvid
 
 export class MainCommandExecutionProvider implements CommandExecutionProvider {
   executeWebsite(command: Command): void {
-    exec(command.content)
+    exec(`start "" "${command.content}"`)
   }
 
   executeProgram(command: Command): void {
