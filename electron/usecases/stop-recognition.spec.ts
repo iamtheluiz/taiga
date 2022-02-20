@@ -1,4 +1,5 @@
 import { TestCommandExecutionProvider } from '../../tests/providers/TestCommandExecutionProvider'
+import { TestCommunicationProvider } from '../../tests/providers/TestCommunicationProvider'
 import { TestRecognitionProvider } from '../../tests/providers/TestRecognitionProvider'
 import { InMemoryCommandsRepository } from '../infra/repositories/in-memory-commands-repository'
 
@@ -7,9 +8,14 @@ import { StopRecognition } from './stop-recognition'
 
 describe('Stop recognition use case', () => {
   it('should stop recognition', async () => {
-    const commandsRepository = new InMemoryCommandsRepository()
     const recognitionProvider = new TestRecognitionProvider()
-    const commandExecutionProvider = new TestCommandExecutionProvider(() => {})
+    const commandsRepository = new InMemoryCommandsRepository()
+    const communicationProvider = new TestCommunicationProvider()
+    const commandExecutionProvider = new TestCommandExecutionProvider(
+      () => {},
+      recognitionProvider,
+      communicationProvider
+    )
 
     // Start recognition
     let currentStatus = await new StartRecognition(

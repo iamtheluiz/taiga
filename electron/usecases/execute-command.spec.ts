@@ -1,4 +1,6 @@
 import { TestCommandExecutionProvider } from '../../tests/providers/TestCommandExecutionProvider'
+import { TestCommunicationProvider } from '../../tests/providers/TestCommunicationProvider'
+import { TestRecognitionProvider } from '../../tests/providers/TestRecognitionProvider'
 import { Command } from '../entities/Command'
 import { InMemoryCommandsRepository } from '../infra/repositories/in-memory-commands-repository'
 import { ExecuteCommand } from './execute-command'
@@ -7,11 +9,15 @@ describe('Execute command use case', () => {
   it('should throw a invalid command type error', async () => {
     let message = ''
 
+    const recognitionProvider = new TestRecognitionProvider()
     const commandsRepository = new InMemoryCommandsRepository()
+    const communicationProvider = new TestCommunicationProvider()
     const commandExecutionProvider = new TestCommandExecutionProvider(
       action => {
         message = action
-      }
+      },
+      recognitionProvider,
+      communicationProvider
     )
 
     // Create a test command
@@ -19,13 +25,12 @@ describe('Execute command use case', () => {
       name: 'taiga open github',
       type: 'coffee',
       content: 'https://github.com',
-      default: false,
     })
     await commandsRepository.save(command)
 
     const sut = new ExecuteCommand(commandsRepository, commandExecutionProvider)
     await sut.execute(command.id).catch(error => {
-      expect(error.message).toBe('Invalid command type')
+      expect(error.message).toBe(`Invalid command type ${command.type}`)
     })
     expect(message).toBe('')
   })
@@ -33,11 +38,15 @@ describe('Execute command use case', () => {
   it('should throw a command not found error', async () => {
     let message = ''
 
+    const recognitionProvider = new TestRecognitionProvider()
     const commandsRepository = new InMemoryCommandsRepository()
+    const communicationProvider = new TestCommunicationProvider()
     const commandExecutionProvider = new TestCommandExecutionProvider(
       action => {
         message = action
-      }
+      },
+      recognitionProvider,
+      communicationProvider
     )
 
     // Create a test command
@@ -45,7 +54,6 @@ describe('Execute command use case', () => {
       name: 'taiga open github',
       type: 'website',
       content: 'https://github.com',
-      default: false,
     })
 
     const sut = new ExecuteCommand(commandsRepository, commandExecutionProvider)
@@ -58,11 +66,15 @@ describe('Execute command use case', () => {
   it('should run a website command', async () => {
     let message = ''
 
+    const recognitionProvider = new TestRecognitionProvider()
     const commandsRepository = new InMemoryCommandsRepository()
+    const communicationProvider = new TestCommunicationProvider()
     const commandExecutionProvider = new TestCommandExecutionProvider(
       action => {
         message = action
-      }
+      },
+      recognitionProvider,
+      communicationProvider
     )
 
     // Create a test command
@@ -70,7 +82,6 @@ describe('Execute command use case', () => {
       name: 'taiga open github',
       type: 'website',
       content: 'https://github.com',
-      default: false,
     })
     await commandsRepository.save(command)
 
@@ -83,11 +94,15 @@ describe('Execute command use case', () => {
   it('should run a program command', async () => {
     let message = ''
 
+    const recognitionProvider = new TestRecognitionProvider()
     const commandsRepository = new InMemoryCommandsRepository()
+    const communicationProvider = new TestCommunicationProvider()
     const commandExecutionProvider = new TestCommandExecutionProvider(
       action => {
         message = action
-      }
+      },
+      recognitionProvider,
+      communicationProvider
     )
 
     // Create a test command
@@ -95,7 +110,6 @@ describe('Execute command use case', () => {
       name: 'taiga open chrome',
       type: 'program',
       content: 'chrome.exe',
-      default: false,
     })
     await commandsRepository.save(command)
 
@@ -108,11 +122,15 @@ describe('Execute command use case', () => {
   it('should run a shell command', async () => {
     let message = ''
 
+    const recognitionProvider = new TestRecognitionProvider()
     const commandsRepository = new InMemoryCommandsRepository()
+    const communicationProvider = new TestCommunicationProvider()
     const commandExecutionProvider = new TestCommandExecutionProvider(
       action => {
         message = action
-      }
+      },
+      recognitionProvider,
+      communicationProvider
     )
 
     // Create a test command
@@ -120,7 +138,6 @@ describe('Execute command use case', () => {
       name: 'taiga open workspace',
       type: 'shell',
       content: 'code . | yarn start',
-      default: false,
     })
     await commandsRepository.save(command)
 

@@ -14,8 +14,7 @@ export class StartRecognition {
   async execute() {
     const executeCommand = new ExecuteCommand(
       this.commandsRepository,
-      this.commandExecutionProvider,
-      this.recognitionProvider
+      this.commandExecutionProvider
     )
 
     this.recognitionProvider.executeCommand = async (id: string) => {

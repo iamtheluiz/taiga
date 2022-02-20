@@ -16,12 +16,15 @@ export class Infra {
 
     const commandsRepository = new JsonCommandsRepository()
     const recognitionProvider = new TaigaRecognitionProvider()
-    const commandExecutionProvider = new MainCommandExecutionProvider()
 
     websocket.onConnection = (socket: SocketType) => {
       const communicationProvider = new WebsocketCommunicationProvider(
         WebsocketServer.io,
         socket
+      )
+      const commandExecutionProvider = new MainCommandExecutionProvider(
+        recognitionProvider,
+        communicationProvider
       )
 
       registerCommandHandlers(

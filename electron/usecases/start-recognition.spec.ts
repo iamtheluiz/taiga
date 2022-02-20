@@ -1,4 +1,5 @@
 import { TestCommandExecutionProvider } from '../../tests/providers/TestCommandExecutionProvider'
+import { TestCommunicationProvider } from '../../tests/providers/TestCommunicationProvider'
 import { TestRecognitionProvider } from '../../tests/providers/TestRecognitionProvider'
 import { Command } from '../entities/Command'
 import { InMemoryCommandsRepository } from '../infra/repositories/in-memory-commands-repository'
@@ -9,12 +10,15 @@ describe('Start recognition use case', () => {
     // eslint-disable-next-line no-unused-vars
     let message = ''
 
-    const commandsRepository = new InMemoryCommandsRepository()
     const recognitionProvider = new TestRecognitionProvider()
+    const commandsRepository = new InMemoryCommandsRepository()
+    const communicationProvider = new TestCommunicationProvider()
     const commandExecutionProvider = new TestCommandExecutionProvider(
       action => {
         message = action
-      }
+      },
+      recognitionProvider,
+      communicationProvider
     )
 
     const sut = new StartRecognition(
@@ -32,12 +36,15 @@ describe('Start recognition use case', () => {
     // eslint-disable-next-line no-unused-vars
     let message = ''
 
+    const communicationProvider = new TestCommunicationProvider()
     const commandsRepository = new InMemoryCommandsRepository()
     const recognitionProvider = new TestRecognitionProvider()
     const commandExecutionProvider = new TestCommandExecutionProvider(
       action => {
         message = action
-      }
+      },
+      recognitionProvider,
+      communicationProvider
     )
 
     const command = new Command({

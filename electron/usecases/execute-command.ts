@@ -28,8 +28,12 @@ export class ExecuteCommand {
         this.commandExecutionProvider.executeShell(command)
         break
 
+      case 'default':
+        this.commandExecutionProvider.executeDefaultCommand(command)
+        break
+
       default:
-        throw new Error('Invalid command type')
+        throw new Error(`Invalid command type ${command.type}`)
     }
   }
 }
