@@ -12,3 +12,17 @@ export const logFilePath = path.join(
     : app.getAppPath(),
   'logs/main.log'
 )
+
+export const taigaRecognitionApplicationPath =
+  process.env.NODE_ENV === 'production'
+    ? path.join(process.resourcesPath, 'TaigaRecognition.exe')
+    : path.join(
+        __dirname,
+        '..',
+        '..',
+        'TaigaRecognition',
+        'bin',
+        'Release',
+        'net6.0',
+        'TaigaRecognition.exe'
+      )
