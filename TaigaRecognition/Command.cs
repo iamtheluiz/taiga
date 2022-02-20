@@ -8,6 +8,7 @@ namespace TaigaRecognition
 {
     internal class Command
     {
+        public string id { get; set; }
         public string name { get; set; }
     }
 }

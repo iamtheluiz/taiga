@@ -2,10 +2,12 @@
 using System.Speech.Recognition;
 using System.Text.Json;
 
-namespace SpeechRecognitionApp
+namespace TaigaRecognition
 {
     class Program
     {
+        static public List<Command> commands = new List<Command>();
+
         static void Main(string[] args)
         {
 
@@ -40,7 +42,7 @@ namespace SpeechRecognitionApp
 
             // Get JSON from taiga electron app
             string json = System.IO.File.ReadAllText("./commands.json");
-            var commands = JsonSerializer.Deserialize<List<TaigaRecognition.Command>>(json);
+            commands.AddRange(JsonSerializer.Deserialize<List<Command>>(json));
 
             commands.ForEach(command => choices.Add(command.name));
 
@@ -52,7 +54,9 @@ namespace SpeechRecognitionApp
         {
             if (e.Result.Confidence >= 0.9)
             {
-                Console.WriteLine("Recognized text: " + e.Result.Text);
+                var command = commands.Find(item => item.name == e.Result.Text);
+
+                Console.WriteLine("Recognized command id: " + command.id);
             }
         }
     }
