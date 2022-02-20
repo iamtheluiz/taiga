@@ -29,11 +29,11 @@ export function Home() {
   }
 
   function handleTaigaStop() {
-    socket.emit('taiga-recognition', { action: 'turn-off' })
+    socket.emit('recognition:stop')
   }
 
   function handleNavigateToNewCommand() {
-    socket.emit('taiga-recognition', { action: 'turn-off' })
+    socket.emit('recognition:stop')
     navigate('/new_command')
   }
 

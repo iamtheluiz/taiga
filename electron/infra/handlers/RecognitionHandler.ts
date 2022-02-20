@@ -3,6 +3,7 @@ import { CommunicationProvider } from '../../providers/CommunicationProvider'
 import { RecognitionProvider } from '../../providers/RecognitionProvider'
 import { CommandsRepository } from '../../repositories/CommandsRepository'
 import { StartRecognition } from '../../usecases/start-recognition'
+import { StopRecognition } from '../../usecases/stop-recognition'
 
 export function registerRecognitionHandlers(
   commandsRepository: CommandsRepository,
@@ -11,6 +12,7 @@ export function registerRecognitionHandlers(
   commandExecutionProvider: CommandExecutionProvider
 ) {
   communicationProvider.onMessage('recognition:start', handleStartRecognition)
+  communicationProvider.onMessage('recognition:stop', handleStopRecognition)
   communicationProvider.onMessage('recognition:get-status', handleGetStatus)
 
   async function handleStartRecognition() {
@@ -19,6 +21,12 @@ export function registerRecognitionHandlers(
       commandsRepository,
       commandExecutionProvider
     ).execute()
+
+    communicationProvider.sendMessage('recognition:update-status', status)
+  }
+
+  async function handleStopRecognition() {
+    const status = await new StopRecognition(recognitionProvider).execute()
 
     communicationProvider.sendMessage('recognition:update-status', status)
   }
