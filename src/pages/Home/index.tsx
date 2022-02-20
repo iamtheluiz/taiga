@@ -25,7 +25,7 @@ export function Home() {
   }
 
   function handleTaigaStart() {
-    socket.emit('taiga-recognition', { action: 'turn-on' })
+    socket.emit('recognition:start')
   }
 
   function handleTaigaStop() {

@@ -32,13 +32,14 @@ export const CommandProvider: FC = ({ children }) => {
   const socket = io('http://localhost:2707')
 
   useEffect(() => {
-    socket.emit('taiga-recognition-get-status', null)
+    socket.emit('recognition:get-status')
 
     socket.on('command:update-list', (data: any) => {
       setCommands(data)
     })
 
-    socket.on('taiga-recognition-status', (data: any) => {
+    socket.on('recognition:update-status', (data: any) => {
+      console.log(data)
       setIsRecognizing(data.isRecognizing)
     })
 
