@@ -6,13 +6,11 @@ export class Command {
   public name: string
   public content: string
   public type: string
-  public default: boolean
 
   constructor(props: Omit<Command, 'id'>, id?: string) {
     this.name = props.name
     this.content = props.content
     this.type = props.type
-    this.default = props.default
 
     if (!id) {
       this.id = uuidv4()
