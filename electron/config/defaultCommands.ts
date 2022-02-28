@@ -10,5 +10,14 @@ const goToTrayCommand = new Command({
   content: 'electron:go-to-tray',
   type: 'default',
 })
+const returnToWindowCommand = new Command({
+  name: 'Taiga return to window',
+  content: 'electron:return-to-window',
+  type: 'default',
+})
 
-export const defaultCommands = [stopCommand, goToTrayCommand]
+export const defaultCommands = [
+  stopCommand,
+  goToTrayCommand,
+  returnToWindowCommand,
+]

@@ -37,6 +37,10 @@ export class MainCommandExecutionProvider implements CommandExecutionProvider {
         mainWindow?.hide()
         break
 
+      case 'electron:return-to-window':
+        mainWindow?.show()
+        break
+
       default:
         throw new Error('Default command not found')
     }
