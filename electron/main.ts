@@ -1,14 +1,17 @@
-import { app, BrowserWindow } from 'electron'
+import { app } from 'electron'
 import { Infra } from './infra/initialize'
 
 import { log } from './lib/logger'
-import { Window } from './lib/Window'
+import { createTray } from './lib/tray'
+import { createWindow, mainWindow } from './lib/window'
 
 app
-  .on('ready', Window.createWindow)
+  .on('ready', createWindow)
   .whenReady()
   .then(() => {
     log.debug('App ready')
+
+    createTray(mainWindow!)
   })
   .catch(log.catchErrors)
 
@@ -18,12 +21,6 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
     log.debug('Taiga closed')
-  }
-})
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    Window.createWindow()
   }
 })
 

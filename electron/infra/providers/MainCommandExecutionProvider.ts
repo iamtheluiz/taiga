@@ -1,5 +1,6 @@
 import { exec } from 'child_process'
 import { Command } from '../../entities/Command'
+import { mainWindow } from '../../lib/window'
 import { CommandExecutionProvider } from '../../providers/CommandExecutionProvider'
 import { CommunicationProvider } from '../../providers/CommunicationProvider'
 import { RecognitionProvider } from '../../providers/RecognitionProvider'
@@ -30,6 +31,10 @@ export class MainCommandExecutionProvider implements CommandExecutionProvider {
           'recognition:update-status',
           this.recognitionProvider.stopRecognition()
         )
+        break
+
+      case 'electron:go-to-tray':
+        mainWindow?.hide()
         break
 
       default:

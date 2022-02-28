@@ -5,5 +5,10 @@ const stopCommand = new Command({
   content: 'recognition:stop',
   type: 'default',
 })
+const goToTrayCommand = new Command({
+  name: 'Taiga go to tray',
+  content: 'electron:go-to-tray',
+  type: 'default',
+})
 
-export const defaultCommands = [stopCommand]
+export const defaultCommands = [stopCommand, goToTrayCommand]
