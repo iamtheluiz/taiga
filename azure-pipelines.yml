@@ -12,6 +12,22 @@ parameters:
 - name: RELEASE_GREETING_MESSAGE
   displayName: Escreva uma mensagem de boas vindas
   type: string
+- name: TAIGA_DEFAULT_IMAGE
+  displayName: Escolha a imagem padrão da aplicação
+  type: string
+  values:
+  - animated-taiga-clap
+  - animated-taiga-haha
+  - animated-taiga-he
+  - animated-taiga-hunf
+  - animated-taiga-shy
+  - animated-taiga-smile
+  - animated-taiga-surprise
+  - animated-taiga-v
+  - animated-taiga-what
+  - taiga-shy
+  - taiga-surprise
+  - taiga-wait
 
 variables:
 - name: SONAR_PROJECT_KEY
