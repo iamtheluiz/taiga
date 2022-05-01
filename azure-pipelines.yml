@@ -5,9 +5,13 @@
 
 parameters:
 - name: DOTNET_PUBLISH_CONFIGURATION
+  displayName: Qual tipo de construção será feita?
   values:
     - Release
     - Debug
+- name: RELEASE_GREETING_MESSAGE
+  displayName: Qual tipo de construção será feita?
+  type: string
 
 variables:
 - name: SONAR_PROJECT_KEY
