@@ -1,4 +1,5 @@
 import { app } from 'electron'
+import { exec } from 'child_process'
 import { Infra } from './infra/initialize'
 
 import { log } from './lib/logger'
@@ -10,6 +11,11 @@ app
   .whenReady()
   .then(() => {
     log.debug('App ready')
+
+    if (process.env.NODE_ENV === 'production') {
+      // Open github page with readme
+      exec('start "" "https://github.com/iamtheluiz/taiga#readme"')
+    }
 
     createTray(mainWindow!)
   })
