@@ -1,0 +1,99 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+parameters:
+- name: DOTNET_PUBLISH_CONFIGURATION
+  values:
+    - Release
+    - Debug
+
+variables:
+- name: SONAR_PROJECT_KEY
+  value: Taiga
+- name: SONAR_PROJECT_NAME
+  value: Taiga
+- name: DOTNET_PUBLISH_OUTDIR
+  value: ../out/Taiga-win32-x64/resources
+
+trigger: none
+
+jobs:
+- job: build
+  displayName: Build Package
+  pool: 
+    vmImage: windows-latest
+  steps:
+    - task: SonarCloudPrepare@1
+      inputs:
+        SonarCloud: 'SonnarCloud'
+        organization: 'iamtheluiz'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: '$(SONAR_PROJECT_KEY)'
+        cliProjectName: '$(SONAR_PROJECT_NAME)'
+        cliSources: '.'
+    
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '16.x'
+    
+    - task: Npm@1
+      inputs:
+        command: 'install'
+        workingDir: '.'
+    
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        workingDir: '.'
+        customCommand: 'lint'
+
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        workingDir: '.'
+        customCommand: 'test'
+    
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: 'junit.xml'
+        mergeTestResults: true
+        failTaskOnFailedTests: true
+    
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '**/*.csproj'
+        arguments: '-c $(DOTNET_PUBLISH_CONFIGURATION) -o $(DOTNET_PUBLISH_OUTDIR)'
+    
+    - task: SonarCloudAnalyze@1
+  
+    - task: sonarcloud-buildbreaker@2
+      inputs:
+        SonarCloud: 'SonnarCloud'
+        organization: 'iamtheluiz'
+    
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '.'
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: 'Archive .'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(DOTNET_PUBLISH_CONFIGURATION)_$(Build.BuildId).zip'
+        replaceExistingArchive: true
+        verbose: true
+    
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(DOTNET_PUBLISH_CONFIGURATION)_$(Build.BuildId).zip'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
