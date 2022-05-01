@@ -10,7 +10,7 @@ parameters:
     - Release
     - Debug
 - name: RELEASE_GREETING_MESSAGE
-  displayName: Qual tipo de construção será feita?
+  displayName: Escreva uma mensagem de boas vindas
   type: string
 
 variables:
