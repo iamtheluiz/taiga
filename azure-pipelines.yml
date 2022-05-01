@@ -43,7 +43,7 @@ jobs:
       inputs:
         command: 'install'
         workingDir: '.'
-    
+
     - task: Npm@1
       inputs:
         command: 'custom'
@@ -55,7 +55,7 @@ jobs:
         command: 'custom'
         workingDir: '.'
         customCommand: 'run test'
-    
+
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: 'JUnit'
@@ -63,6 +63,12 @@ jobs:
         mergeTestResults: true
         failTaskOnFailedTests: true
     
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        workingDir: '.'
+        customCommand: 'run package:ci'
+
     - task: DotNetCoreCLI@2
       inputs:
         command: 'publish'
@@ -70,9 +76,13 @@ jobs:
         projects: '**/*.csproj'
         arguments: '-c $(DOTNET_PUBLISH_CONFIGURATION) -o $(DOTNET_PUBLISH_OUTDIR)'
         workingDirectory: './TaigaRecognition'
-    
+
     - task: SonarCloudAnalyze@1
-  
+
+    - task: SonarCloudPublish@1
+      inputs:
+        pollingTimeoutSec: '300'
+
     - task: sonarcloud-buildbreaker@2
       inputs:
         SonarCloud: 'SonnarCloud'
@@ -80,21 +90,12 @@ jobs:
     
     - task: CopyFiles@2
       inputs:
-        SourceFolder: '.'
+        SourceFolder: './out'
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    
-    - task: ArchiveFiles@2
-      inputs:
-        rootFolderOrFile: 'Archive .'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(DOTNET_PUBLISH_CONFIGURATION)_$(Build.BuildId).zip'
-        replaceExistingArchive: true
-        verbose: true
-    
+
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(DOTNET_PUBLISH_CONFIGURATION)_$(Build.BuildId).zip'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'
