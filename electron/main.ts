@@ -1,59 +1,22 @@
-import { app, BrowserWindow } from 'electron'
-import path from 'path'
+import { app } from 'electron'
+import { Infra } from './infra/initialize'
 
-import { log } from './logger'
-
-import { Communication } from './lib/Communication'
-import { Recognition } from './lib/Recognition'
-
-let mainWindow: BrowserWindow | null
-
-declare const MAIN_WINDOW_WEBPACK_ENTRY: string
-declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string
-
-const assetsPath =
-  process.env.NODE_ENV === 'production'
-    ? process.resourcesPath
-    : app.getAppPath()
-
-function createWindow() {
-  log.debug('Creating window')
-
-  mainWindow = new BrowserWindow({
-    icon: path.join(assetsPath, 'assets', 'icon.ico'),
-    width: 1100,
-    height: 700,
-    backgroundColor: '#191622',
-    frame: false,
-    webPreferences: {
-      enableRemoteModule: true,
-      nodeIntegration: false,
-      contextIsolation: true,
-      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
-    },
-  })
-
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
-
-  mainWindow.on('closed', () => {
-    log.debug('Main window closed')
-    mainWindow = null
-  })
-}
+import { log } from './lib/logger'
+import { createTray } from './lib/tray'
+import { createWindow, mainWindow } from './lib/window'
 
 app
   .on('ready', createWindow)
   .whenReady()
   .then(() => {
     log.debug('App ready')
-    Communication.registerListeners()
+
+    createTray(mainWindow!)
   })
   .catch(log.catchErrors)
 
 app.on('window-all-closed', () => {
   log.debug('Taiga windows all closed')
-
-  Recognition.stopRecognition()
 
   if (process.platform !== 'darwin') {
     app.quit()
@@ -61,8 +24,5 @@ app.on('window-all-closed', () => {
   }
 })
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
-  }
-})
+// Create application
+Infra.initialize()

@@ -1,12 +1,17 @@
 import { FC } from 'react'
-import { Command, useCommand } from '../../contexts/command'
+import { useCommand } from '../../contexts/command'
+import { Command } from '../../../types'
+
+// Components
+import { Button } from '../Button'
 
 // Icons
-import { FiGlobe } from 'react-icons/fi'
+import { FiGlobe, FiSettings } from 'react-icons/fi'
 import { BsTerminalFill } from 'react-icons/bs'
 import { FaLaptop, FaTrash } from 'react-icons/fa'
+
+// Styles
 import { Container } from './styles'
-import { Button } from '../Button'
 
 interface CommandItemProps {
   command: Command
@@ -17,7 +22,8 @@ export const CommandItem: FC<CommandItemProps> = ({ command }) => {
   const { removeCommand } = useCommand()
 
   return (
-    <Container key={command.name}>
+    <Container key={command.name} command={command}>
+      {command.type === 'default' && <FiSettings size={iconSize} />}
       {command.type === 'website' && <FiGlobe size={iconSize} />}
       {command.type === 'shell' && <BsTerminalFill size={iconSize} />}
       {command.type === 'program' && <FaLaptop size={iconSize} />}

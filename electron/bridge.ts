@@ -24,7 +24,6 @@ export const api = {
   },
 
   handleMaximizeWindow() {
-    console.log(remote)
     const window = remote.getCurrentWindow()
 
     if (!window.isMaximized()) {
@@ -37,7 +36,8 @@ export const api = {
   handleMinimizeWindow() {
     const window = remote.getCurrentWindow()
 
-    window.minimize()
+    // window.minimize()
+    window.hide()
   },
 
   /**

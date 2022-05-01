@@ -1,36 +1,40 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { OpenDialogReturnValue } from 'electron/main'
+import { FormEvent, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { OpenDialogReturnValue } from 'electron/main'
+import { useCommand } from '../../contexts/command'
+
 import { Button } from '../../components/Button'
 
-import { Container, File, Form, Input, InputControl, Select } from './styles'
 import { FaFileUpload } from 'react-icons/fa'
+import { Container, File, Form, Input, InputControl, Select } from './styles'
 
 export function NewCommand() {
-  const [name, setName] = useState('')
-  const [type, setType] = useState('shell')
-  const [content, setContent] = useState('')
-
   const navigate = useNavigate()
+  const { socket, newCommand, setNewCommand } = useCommand()
 
   useEffect(() => {
-    window.Main.on('open-dialog-response', (data: OpenDialogReturnValue) => {
-      if (!data.canceled) {
-        setContent(data.filePaths[0])
+    socket.on(
+      'electron:dialog-selected-file',
+      (selectedFile: OpenDialogReturnValue) => {
+        // @ts-ignore
+        setNewCommand((oldNewCommand: any) => {
+          return {
+            ...oldNewCommand,
+            content: selectedFile.filePaths[0] || oldNewCommand.content,
+          }
+        })
       }
-    })
+    )
   }, [])
+
+  async function handleGetProgram() {
+    socket.emit('electron:open-dialog')
+  }
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
-    window.Main.send('add-new-command', {
-      command: {
-        name,
-        type,
-        content,
-      },
-    })
+    socket.emit('command:create', newCommand)
 
     navigate('/main_window')
   }
@@ -48,8 +52,13 @@ export function NewCommand() {
             type="text"
             id="name"
             name="name"
-            value={name}
-            onChange={event => setName(event.currentTarget.value)}
+            value={newCommand.name}
+            onChange={event =>
+              setNewCommand({
+                ...newCommand,
+                name: event.currentTarget.value,
+              })
+            }
           />
         </InputControl>
         <InputControl>
@@ -57,33 +66,44 @@ export function NewCommand() {
           <Select
             id="text"
             name="type"
-            value={type}
-            onChange={event => setType(event.currentTarget.value)}
+            value={newCommand.type}
+            onChange={event =>
+              setNewCommand({
+                ...newCommand,
+                // @ts-ignore
+                type: event.currentTarget.value,
+              })
+            }
           >
             <option value="shell">Shell</option>
             <option value="program">Program</option>
             <option value="website">Website</option>
           </Select>
         </InputControl>
-        {['shell', 'website'].includes(type) && (
+        {['shell', 'website'].includes(newCommand.type) && (
           <InputControl>
             <label htmlFor="content">Content</label>
             <Input
               type="text"
               id="content"
               name="content"
-              value={content}
-              onChange={event => setContent(event.currentTarget.value)}
+              value={newCommand.content}
+              onChange={event =>
+                setNewCommand({
+                  ...newCommand,
+                  content: event.currentTarget.value,
+                })
+              }
             />
           </InputControl>
         )}
-        {type === 'program' && (
-          <InputControl onClick={() => window.Main.send('open-dialog', null)}>
+        {newCommand.type === 'program' && (
+          <InputControl onClick={handleGetProgram}>
             <File>
               <FaFileUpload size={20} />
-              {content === ''
+              {newCommand.content === ''
                 ? 'Selecione um programa'
-                : content.split('\\').pop()}
+                : newCommand.content.split('\\').pop()}
             </File>
           </InputControl>
         )}
