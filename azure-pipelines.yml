@@ -55,6 +55,7 @@ jobs:
         customCommand: 'run lint'
 
     - task: Npm@1
+      continueOnError: true
       inputs:
         command: 'custom'
         workingDir: '.'
