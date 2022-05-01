@@ -48,13 +48,13 @@ jobs:
       inputs:
         command: 'custom'
         workingDir: '.'
-        customCommand: 'lint'
+        customCommand: 'run lint'
 
     - task: Npm@1
       inputs:
         command: 'custom'
         workingDir: '.'
-        customCommand: 'test'
+        customCommand: 'run test'
     
     - task: PublishTestResults@2
       inputs:
@@ -69,6 +69,7 @@ jobs:
         publishWebProjects: false
         projects: '**/*.csproj'
         arguments: '-c $(DOTNET_PUBLISH_CONFIGURATION) -o $(DOTNET_PUBLISH_OUTDIR)'
+        workingDirectory: './TaigaRecognition'
     
     - task: SonarCloudAnalyze@1
   
