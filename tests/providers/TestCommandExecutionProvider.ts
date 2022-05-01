@@ -28,10 +28,15 @@ export class TestCommandExecutionProvider implements CommandExecutionProvider {
   executeDefaultCommand(command: Command) {
     switch (command.content) {
       case 'recognition:stop':
-        this.communicationProvider.sendMessage(
-          'recognition:update-status',
-          this.recognitionProvider.stopRecognition()
-        )
+        this.log('executing stop recognition default command')
+        break
+
+      case 'electron:go-to-tray':
+        this.log('executing go to tray default command')
+        break
+
+      case 'electron:return-to-window':
+        this.log('executing return to window default command')
         break
 
       default:

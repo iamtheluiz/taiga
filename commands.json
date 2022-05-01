@@ -1,1 +1,26 @@
-[{"id":"default-1","name":"Taiga stop recognizing","content":"stop","type":"","default":true}]
+[
+  {
+    "name": "Taiga stop recognition",
+    "content": "recognition:stop",
+    "type": "default",
+    "id": "54e8bad1-b297-4f1d-8fcb-88ca26863207"
+  },
+  {
+    "name": "Taiga go to tray",
+    "content": "electron:go-to-tray",
+    "type": "default",
+    "id": "c89f477c-0f00-4246-95d2-ab644605b50d"
+  },
+  {
+    "name": "Taiga return to window",
+    "content": "electron:return-to-window",
+    "type": "default",
+    "id": "27c6c235-53d5-4c49-b193-ae6f294e9215"
+  },
+  {
+    "name": "Taiga open boxbox stream",
+    "content": "https://www.twitch.tv/boxbox",
+    "type": "website",
+    "id": "2681ca30-1772-4223-a3fd-fabc4b03dde3"
+  }
+]

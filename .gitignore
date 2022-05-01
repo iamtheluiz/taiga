@@ -5,3 +5,4 @@ packages
 out
 commands.json
 *.log
+junit.xml
