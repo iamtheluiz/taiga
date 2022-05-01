@@ -14,7 +14,7 @@ import { Image } from '../../styles/GlobalComponents'
 
 export function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const [image, setImage] = useState('taiga-surprise')
+  const [image, setImage] = useState(window.Main.defaultImage)
 
   const { commands, refreshCommands, socket, isRecognizing } = useCommand()
 
@@ -49,7 +49,7 @@ export function Home() {
           }}
           onClick={handleOpenChangeImageModal}
         />
-        <strong>Welcome!</strong>
+        <strong>{window.Main.greetingText}</strong>
         {isRecognizing ? (
           <Button
             onClick={handleTaigaStop}
