@@ -88,6 +88,9 @@ jobs:
         command: 'custom'
         workingDir: '.'
         customCommand: 'run package:ci'
+      env:
+        RELEASE_GREETING_MESSAGE: $(RELEASE_GREETING_MESSAGE)
+        TAIGA_DEFAULT_IMAGE: $(TAIGA_DEFAULT_IMAGE)
       
     - task: DotNetCoreCLI@2
       inputs:
