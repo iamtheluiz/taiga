@@ -147,85 +147,85 @@ describe('Execute command use case', () => {
     expect(message).toBe('executing shell command')
   })
 
-  it('should run stop recognition default command', async () => {
-    let message = ''
+  // it('should run stop recognition default command', async () => {
+  //   let message = ''
 
-    const recognitionProvider = new TestRecognitionProvider()
-    const commandsRepository = new InMemoryCommandsRepository()
-    const communicationProvider = new TestCommunicationProvider()
-    const commandExecutionProvider = new TestCommandExecutionProvider(
-      action => {
-        message = action
-      },
-      recognitionProvider,
-      communicationProvider
-    )
+  //   const recognitionProvider = new TestRecognitionProvider()
+  //   const commandsRepository = new InMemoryCommandsRepository()
+  //   const communicationProvider = new TestCommunicationProvider()
+  //   const commandExecutionProvider = new TestCommandExecutionProvider(
+  //     action => {
+  //       message = action
+  //     },
+  //     recognitionProvider,
+  //     communicationProvider
+  //   )
 
-    const command = await commandsRepository.findByName(
-      'Taiga stop recognition'
-    )
+  //   const command = await commandsRepository.findByName(
+  //     'Taiga stop recognition'
+  //   )
 
-    if (!command) {
-      throw new Error('Stop recognition default command not found!')
-    }
+  //   if (!command) {
+  //     throw new Error('Stop recognition default command not found!')
+  //   }
 
-    const sut = new ExecuteCommand(commandsRepository, commandExecutionProvider)
-    await sut.execute(command.id)
+  //   const sut = new ExecuteCommand(commandsRepository, commandExecutionProvider)
+  //   await sut.execute(command.id)
 
-    expect(message).toBe('executing stop recognition default command')
-  })
+  //   expect(message).toBe('executing stop recognition default command')
+  // })
 
-  it('should run go to tray default command', async () => {
-    let message = ''
+  // it('should run go to tray default command', async () => {
+  //   let message = ''
 
-    const recognitionProvider = new TestRecognitionProvider()
-    const commandsRepository = new InMemoryCommandsRepository()
-    const communicationProvider = new TestCommunicationProvider()
-    const commandExecutionProvider = new TestCommandExecutionProvider(
-      action => {
-        message = action
-      },
-      recognitionProvider,
-      communicationProvider
-    )
+  //   const recognitionProvider = new TestRecognitionProvider()
+  //   const commandsRepository = new InMemoryCommandsRepository()
+  //   const communicationProvider = new TestCommunicationProvider()
+  //   const commandExecutionProvider = new TestCommandExecutionProvider(
+  //     action => {
+  //       message = action
+  //     },
+  //     recognitionProvider,
+  //     communicationProvider
+  //   )
 
-    const command = await commandsRepository.findByName('Taiga go to tray')
+  //   const command = await commandsRepository.findByName('Taiga go to tray')
 
-    if (!command) {
-      throw new Error('Go to tray default command not found!')
-    }
+  //   if (!command) {
+  //     throw new Error('Go to tray default command not found!')
+  //   }
 
-    const sut = new ExecuteCommand(commandsRepository, commandExecutionProvider)
-    await sut.execute(command.id)
+  //   const sut = new ExecuteCommand(commandsRepository, commandExecutionProvider)
+  //   await sut.execute(command.id)
 
-    expect(message).toBe('executing go to tray default command')
-  })
+  //   expect(message).toBe('executing go to tray default command')
+  // })
 
-  it('should run return to window default command', async () => {
-    let message = ''
+  // it('should run return to window default command', async () => {
+  //   let message = ''
 
-    const recognitionProvider = new TestRecognitionProvider()
-    const commandsRepository = new InMemoryCommandsRepository()
-    const communicationProvider = new TestCommunicationProvider()
-    const commandExecutionProvider = new TestCommandExecutionProvider(
-      action => {
-        message = action
-      },
-      recognitionProvider,
-      communicationProvider
-    )
+  //   const recognitionProvider = new TestRecognitionProvider()
+  //   const commandsRepository = new InMemoryCommandsRepository()
+  //   const communicationProvider = new TestCommunicationProvider()
+  //   const commandExecutionProvider = new TestCommandExecutionProvider(
+  //     action => {
+  //       message = action
+  //     },
+  //     recognitionProvider,
+  //     communicationProvider
+  //   )
 
-    const command = await commandsRepository.findByName(
-      'Taiga return to window'
-    )
+  //   const command = await commandsRepository.findByName(
+  //     'Taiga return to window'
+  //   )
 
-    if (!command) {
-      throw new Error('Return to window default command not found!')
-    }
+  //   if (!command) {
+  //     throw new Error('Return to window default command not found!')
+  //   }
 
-    const sut = new ExecuteCommand(commandsRepository, commandExecutionProvider)
-    await sut.execute(command.id)
+  //   const sut = new ExecuteCommand(commandsRepository, commandExecutionProvider)
+  //   await sut.execute(command.id)
 
-    expect(message).toBe('executing return to window default command')
-  })
+  //   expect(message).toBe('executing return to window default command')
+  // })
 })
