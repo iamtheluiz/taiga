@@ -55,6 +55,11 @@ jobs:
         cliProjectName: '$(SONAR_PROJECT_NAME)'
         cliSources: '.'
     
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '6.x'
+    
     - task: NodeTool@0
       inputs:
         versionSpec: '16.x'
