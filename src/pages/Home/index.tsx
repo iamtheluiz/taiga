@@ -12,9 +12,16 @@ import { TaigaImagesModal } from '../../components/TaigaImagesModal'
 import { Container, LeftContent, RightContent, CommandList } from './styles'
 import { Image } from '../../styles/GlobalComponents'
 
+const defaultImage = process.env.TAIGA_DEFAULT_IMAGE
+  ? process.env.TAIGA_DEFAULT_IMAGE
+  : 'taiga-surprise'
+const greetingMessage = process.env.RELEASE_GREETING_MESSAGE
+  ? process.env.RELEASE_GREETING_MESSAGE
+  : 'Welcome!'
+
 export function Home() {
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  const [image, setImage] = useState(window.Main.defaultImage)
+  const [image, setImage] = useState(defaultImage)
 
   const { commands, refreshCommands, socket, isRecognizing } = useCommand()
 
@@ -49,7 +56,7 @@ export function Home() {
           }}
           onClick={handleOpenChangeImageModal}
         />
-        <strong>{window.Main.greetingText}</strong>
+        <strong>{greetingMessage}</strong>
         {isRecognizing ? (
           <Button
             onClick={handleTaigaStop}

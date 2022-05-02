@@ -8,12 +8,6 @@ export const api = {
    *
    * The function below can accessed using `window.Main.sayHello`
    */
-  greetingText: process.env.RELEASE_GREETING_MESSAGE
-    ? process.env.RELEASE_GREETING_MESSAGE
-    : 'Welcome!',
-  defaultImage: process.env.TAIGA_DEFAULT_IMAGE
-    ? process.env.TAIGA_DEFAULT_IMAGE
-    : 'taiga-surprise',
 
   sendMessage: (message: string) => {
     ipcRenderer.send('message', message)
