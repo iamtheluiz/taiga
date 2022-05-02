@@ -98,8 +98,8 @@ jobs:
           Write-Host $env:RELEASE_GREETING_MESSAGE
           Write-Host $env:TAIGA_DEFAULT_IMAGE
       env:
-        RELEASE_GREETING_MESSAGE: $(RELEASE_GREETING_MESSAGE)
-        TAIGA_DEFAULT_IMAGE: $(TAIGA_DEFAULT_IMAGE)
+        RELEASE_GREETING_MESSAGE: ${{ parameters.RELEASE_GREETING_MESSAGE }}
+        TAIGA_DEFAULT_IMAGE: ${{ parameters.TAIGA_DEFAULT_IMAGE }}
       
     - task: DotNetCoreCLI@2
       inputs:
