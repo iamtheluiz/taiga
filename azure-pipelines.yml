@@ -31,10 +31,6 @@ variables:
   value: Taiga
 - name: DOTNET_PUBLISH_OUTDIR
   value: ../out/Taiga-win32-x64/resources
-- name: RELEASE_GREETING_MESSAGE
-  value: $(RELEASE_GREETING_MESSAGE)
-- name: TAIGA_DEFAULT_IMAGE
-  value: $(TAIGA_DEFAULT_IMAGE)
 
 trigger: none
 
