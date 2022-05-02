@@ -4,11 +4,6 @@
 # https://aka.ms/yaml
 
 parameters:
-- name: DOTNET_PUBLISH_CONFIGURATION
-  displayName: Qual tipo de construção será feita?
-  values:
-    - Release
-    - Debug
 - name: RELEASE_GREETING_MESSAGE
   displayName: Escreva uma mensagem de boas vindas
   type: string
@@ -106,7 +101,7 @@ jobs:
         command: 'publish'
         publishWebProjects: false
         projects: '**/*.csproj'
-        arguments: '-c $(DOTNET_PUBLISH_CONFIGURATION) -o $(DOTNET_PUBLISH_OUTDIR)'
+        arguments: '-c Release -o $(DOTNET_PUBLISH_OUTDIR)'
         workingDirectory: './TaigaRecognition'
 
     # - task: SonarCloudAnalyze@1
