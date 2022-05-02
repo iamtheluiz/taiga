@@ -99,8 +99,8 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
-          $env:RELEASE_GREETING_MESSAGE="$(RELEASE_GREETING_MESSAGE)"
-          $env:TAIGA_DEFAULT_IMAGE="$(TAIGA_DEFAULT_IMAGE)"
+          $env:RELEASE_GREETING_MESSAGE="$RELEASE_GREETING_MESSAGE"
+          $env:TAIGA_DEFAULT_IMAGE="$TAIGA_DEFAULT_IMAGE"
           Write-Host RELEASE_GREETING_MESSAGE
           Write-Host TAIGA_DEFAULT_IMAGE
       
