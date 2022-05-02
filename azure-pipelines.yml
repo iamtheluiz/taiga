@@ -101,6 +101,7 @@ jobs:
         publishWebProjects: false
         projects: '**/*.csproj'
         arguments: '-c Release -o $(DOTNET_PUBLISH_OUTDIR)'
+        zipAfterPublish: false
         workingDirectory: './TaigaRecognition'
 
     - task: SonarCloudAnalyze@1
