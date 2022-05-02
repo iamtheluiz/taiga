@@ -9,6 +9,7 @@
     "commit": "git-cz",
     "start": "electron-forge start",
     "package": "electron-forge package && cd ./TaigaRecognition && dotnet publish -c Release -o ../out/Taiga-win32-x64/resources",
+    "package:ci": "electron-forge package",
     "make": "electron-forge make",
     "release": "electron-forge publish",
     "lint": "eslint . --ext js,ts,tsx --fix",
