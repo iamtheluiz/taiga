@@ -35,7 +35,7 @@ variables:
 - name: SONAR_PROJECT_NAME
   value: Taiga
 - name: DOTNET_PUBLISH_OUTDIR
-  value: ../out/Taiga-win32-x64/resources
+  value: ./out/Taiga-win32-x64/resources
 
 trigger: none
 
