@@ -4,10 +4,10 @@
 # https://aka.ms/yaml
 
 parameters:
-- name: SELECTED_RELEASE_GREETING_MESSAGE
+- name: RELEASE_GREETING_MESSAGE
   displayName: Escreva uma mensagem de boas vindas
   type: string
-- name: SELECTED_TAIGA_DEFAULT_IMAGE
+- name: TAIGA_DEFAULT_IMAGE
   displayName: Escolha a imagem padrão da aplicação
   type: string
   values:
@@ -31,10 +31,6 @@ variables:
   value: Taiga
 - name: DOTNET_PUBLISH_OUTDIR
   value: ../out/Taiga-win32-x64/resources
-- name: RELEASE_GREETING_MESSAGE
-  value: $(SELECTED_RELEASE_GREETING_MESSAGE)
-- name: TAIGA_DEFAULT_IMAGE
-  value: $(SELECTED_TAIGA_DEFAULT_IMAGE)
 
 trigger: none
 
