@@ -4,11 +4,6 @@
 # https://aka.ms/yaml
 
 parameters:
-- name: DOTNET_PUBLISH_CONFIGURATION
-  displayName: Qual tipo de construção será feita?
-  values:
-    - Release
-    - Debug
 - name: RELEASE_GREETING_MESSAGE
   displayName: Escreva uma mensagem de boas vindas
   type: string
@@ -36,14 +31,17 @@ variables:
   value: Taiga
 - name: DOTNET_PUBLISH_OUTDIR
   value: ../out/Taiga-win32-x64/resources
+- name: RELEASE_GREETING_MESSAGE
+  value: $(RELEASE_GREETING_MESSAGE)
+- name: TAIGA_DEFAULT_IMAGE
+  value: $(TAIGA_DEFAULT_IMAGE)
 
 trigger: none
 
 jobs:
 - job: build
   displayName: Build Package
-  pool: 
-    vmImage: windows-latest
+  pool: MyPC
   steps:
     - task: SonarCloudPrepare@1
       inputs:
@@ -54,6 +52,11 @@ jobs:
         cliProjectKey: '$(SONAR_PROJECT_KEY)'
         cliProjectName: '$(SONAR_PROJECT_NAME)'
         cliSources: '.'
+    
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '6.x'
     
     - task: NodeTool@0
       inputs:
@@ -89,13 +92,24 @@ jobs:
         command: 'custom'
         workingDir: '.'
         customCommand: 'run package:ci'
+      env:
+        RELEASE_GREETING_MESSAGE: $(RELEASE_GREETING_MESSAGE)
+        TAIGA_DEFAULT_IMAGE: $(TAIGA_DEFAULT_IMAGE)
+      
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
 
     - task: DotNetCoreCLI@2
       inputs:
         command: 'publish'
         publishWebProjects: false
         projects: '**/*.csproj'
-        arguments: '-c $(DOTNET_PUBLISH_CONFIGURATION) -o $(DOTNET_PUBLISH_OUTDIR)'
+        arguments: '-c Release -o $(DOTNET_PUBLISH_OUTDIR)'
+        zipAfterPublish: false
+        modifyOutputPath: false
         workingDirectory: './TaigaRecognition'
 
     - task: SonarCloudAnalyze@1
