@@ -95,6 +95,8 @@ jobs:
       inputs:
         targetType: 'inline'
         script: |
+          Write-Host $env:RELEASE_GREETING_MESSAGE
+          Write-Host $env:TAIGA_DEFAULT_IMAGE
           npm run package:ci
       env:
         RELEASE_GREETING_MESSAGE: ${{ parameters.RELEASE_GREETING_MESSAGE }}
