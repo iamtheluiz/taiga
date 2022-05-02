@@ -37,8 +37,7 @@ trigger: none
 jobs:
 - job: build
   displayName: Build Package
-  pool: 
-    vmImage: windows-latest
+  pool: MyPC
   steps:
     # - task: SonarCloudPrepare@1
     #   inputs:
