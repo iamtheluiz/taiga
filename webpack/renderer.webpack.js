@@ -10,7 +10,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.RELEASE_GREETING_MESSAGE': JSON.stringify(process.env.RELEASE_GREETING_MESSAGE),
-      'process.env.TAIGA_DEFAULT_IMAGE': JSON.stringify(process.env.RELEASE_GREETING_MESSAGE)
+      'process.env.TAIGA_DEFAULT_IMAGE': JSON.stringify(process.env.TAIGA_DEFAULT_IMAGE)
     })
   ]
 }
