@@ -193,7 +193,7 @@ jobs:
     - task: publishhtmlreport@1
       inputs:
         htmlType: 'genericHTML'
-        htmlPath: '$(Build.ArtifactStagingDirectory)\report\report.html'
+        htmlPath: '$(Build.SourcesDirectory)\report\report.html'
 
     - task: CopyFiles@2
       displayName: Copy Files
