@@ -190,6 +190,11 @@ jobs:
         REPORT_SONAR_FILE: '$(Build.ArtifactStagingDirectory)\.sqAnalysis\SonarQubeBuildSummary.md'
         REPORT_OUTPUT: '$(Build.SourcesDirectory)\report'
 
+    - task: publishhtmlreport@1
+      inputs:
+        htmlType: 'genericHTML'
+        htmlPath: '$(Build.ArtifactStagingDirectory)\report\report.html'
+
     - task: CopyFiles@2
       displayName: Copy Files
       inputs:
