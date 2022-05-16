@@ -188,7 +188,14 @@ jobs:
         REPORT_TESTS_FILE: .\junit.xml
         REPORT_GIT_LOG_FILE: .\git-log.txt
         REPORT_SONAR_FILE: '$(Build.ArtifactStagingDirectory)\.sqAnalysis\SonarQubeBuildSummary.md'
-        REPORT_OUTPUT: $(REPORT_OUTPUT)
+        REPORT_OUTPUT: '$(Build.SourcesDirectory)\report'
+
+    - task: CopyFiles@2
+      displayName: Copy Files
+      inputs:
+        SourceFolder: '.\report'
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)\report'
 
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact
