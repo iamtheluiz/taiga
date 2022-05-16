@@ -37,12 +37,6 @@ variables:
   value: Taiga
 - name: REPORT_DESCRIPTION
   value: 🐯 Taiga is a speech recognition app that executes registered voice commands.
-- name: REPORT_TESTS_FILE
-  value: 
-- name: REPORT_GIT_LOG_FILE
-  value: 
-- name: REPORT_SONAR_FILE
-  value: 
 - name: REPORT_OUTPUT
   value: report
 
@@ -177,11 +171,13 @@ jobs:
           $OutputPath = ".\git-log.txt"
           
           git log --all --decorate --oneline --graph > $OutputPath
+        workingDirectory: $(Build.SourcesDirectory)
 
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
         script: 'taiga-report'
+        workingDirectory: $(Build.SourcesDirectory)
       env:
         RELEASE_GREETING_MESSAGE: ${{ parameters.RELEASE_GREETING_MESSAGE }}
         TAIGA_DEFAULT_IMAGE: ${{ parameters.TAIGA_DEFAULT_IMAGE }}
@@ -189,9 +185,9 @@ jobs:
         REPORT_APPLICATION: $(REPORT_APPLICATION)
         REPORT_DESCRIPTION: $(REPORT_DESCRIPTION)
         REPORT_BUILD_NAME: $(Build.BuildNumber)
-        REPORT_TESTS_FILE: 
+        REPORT_TESTS_FILE: .\junit.xml
         REPORT_GIT_LOG_FILE: .\git-log.txt
-        REPORT_SONAR_FILE: 
+        REPORT_SONAR_FILE: '$(Build.ArtifactStagingDirectory)\.sqAnalysis\SonarQubeBuildSummary.md'
         REPORT_OUTPUT: $(REPORT_OUTPUT)
 
     - task: PublishBuildArtifacts@1
