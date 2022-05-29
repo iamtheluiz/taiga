@@ -199,7 +199,7 @@ jobs:
         Body: 'https://dev.azure.com/iamtheluiz/Taiga/_build/results?buildId=$(Build.BuildNumber)&view=results'
         BodyAsHtml: false
         AddAttachment: true
-        Attachment: '$(Build.SourcesDirectory)\report\report.pdf'
+        Attachment: '$(Build.SourcesDirectory)\report\report-$(Build.BuildNumber).pdf'
         SmtpServer: 'smtp.gmail.com'
         SmtpPort: '465'
         SmtpUsername: '$(EmailUser)'
@@ -208,7 +208,7 @@ jobs:
     - task: publishhtmlreport@1
       inputs:
         htmlType: 'genericHTML'
-        htmlPath: '$(Build.SourcesDirectory)\report\report.html'
+        htmlPath: '$(Build.SourcesDirectory)\report\report-$(Build.BuildNumber).html'
 
     - task: CopyFiles@2
       displayName: Copy Files
