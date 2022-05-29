@@ -196,6 +196,7 @@ jobs:
         To: 'lgdsvgamerp@gmail.com'
         From: '$(EmailUser)'
         Subject: 'Taiga build #$(Build.BuildNumber)'
+        Body: 'https://dev.azure.com/iamtheluiz/Taiga/_build/results?buildId=$(Build.BuildNumber)&view=results'
         BodyAsHtml: false
         AddAttachment: true
         Attachment: '$(Build.SourcesDirectory)\report\report.pdf'
