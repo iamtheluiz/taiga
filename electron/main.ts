@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import { app } from 'electron'
 import { exec } from 'child_process'
 import { Infra } from './infra/initialize'

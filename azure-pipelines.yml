@@ -4,10 +4,25 @@
 # https://aka.ms/yaml
 
 parameters:
-- name: DOTNET_PUBLISH_CONFIGURATION
+- name: RELEASE_GREETING_MESSAGE
+  displayName: Escreva uma mensagem de boas vindas
+  type: string
+- name: TAIGA_DEFAULT_IMAGE
+  displayName: Escolha a imagem padrão da aplicação
+  type: string
   values:
-    - Release
-    - Debug
+  - animated-taiga-clap
+  - animated-taiga-haha
+  - animated-taiga-he
+  - animated-taiga-hunf
+  - animated-taiga-shy
+  - animated-taiga-smile
+  - animated-taiga-surprise
+  - animated-taiga-v
+  - animated-taiga-what
+  - taiga-shy
+  - taiga-surprise
+  - taiga-wait
 
 variables:
 - name: SONAR_PROJECT_KEY
@@ -22,10 +37,10 @@ trigger: none
 jobs:
 - job: build
   displayName: Build Package
-  pool: 
-    vmImage: windows-latest
+  pool: MyPC
   steps:
     - task: SonarCloudPrepare@1
+      displayName: Prepare Sonar Analysis
       inputs:
         SonarCloud: 'SonnarCloud'
         organization: 'iamtheluiz'
@@ -35,65 +50,100 @@ jobs:
         cliProjectName: '$(SONAR_PROJECT_NAME)'
         cliSources: '.'
     
+    - task: UseDotNet@2
+      displayName: Use DotNet 6.x
+      inputs:
+        packageType: 'sdk'
+        version: '6.x'
+    
     - task: NodeTool@0
+      displayName: Use Node 16.x
       inputs:
         versionSpec: '16.x'
     
     - task: Npm@1
+      displayName: Install Node Dependencies
       inputs:
         command: 'install'
         workingDir: '.'
-    
-    - task: Npm@1
-      inputs:
-        command: 'custom'
-        workingDir: '.'
-        customCommand: 'lint'
 
     - task: Npm@1
+      displayName: Code Lint
       inputs:
         command: 'custom'
         workingDir: '.'
-        customCommand: 'test'
-    
+        customCommand: 'run lint'
+
+    - task: Npm@1
+      displayName: Code Test
+      continueOnError: true
+      inputs:
+        command: 'custom'
+        workingDir: '.'
+        customCommand: 'run test'
+
     - task: PublishTestResults@2
+      displayName: Publish Test Result
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: 'junit.xml'
         mergeTestResults: true
         failTaskOnFailedTests: true
     
+    - task: PowerShell@2
+      displayName: Create Package
+      inputs:
+        targetType: 'inline'
+        script: |
+          Write-Host $env:RELEASE_GREETING_MESSAGE
+          Write-Host $env:TAIGA_DEFAULT_IMAGE
+          npm run package:ci
+      env:
+        RELEASE_GREETING_MESSAGE: ${{ parameters.RELEASE_GREETING_MESSAGE }}
+        TAIGA_DEFAULT_IMAGE: ${{ parameters.TAIGA_DEFAULT_IMAGE }}
+      
     - task: DotNetCoreCLI@2
+      displayName: Restore DotNet Dependencies
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
+
+    - task: DotNetCoreCLI@2
+      displayName: Publish DotNet Projet
       inputs:
         command: 'publish'
         publishWebProjects: false
         projects: '**/*.csproj'
-        arguments: '-c $(DOTNET_PUBLISH_CONFIGURATION) -o $(DOTNET_PUBLISH_OUTDIR)'
-    
+        arguments: '-c Release -o $(DOTNET_PUBLISH_OUTDIR)'
+        zipAfterPublish: false
+        modifyOutputPath: false
+        workingDirectory: './TaigaRecognition'
+
     - task: SonarCloudAnalyze@1
-  
+      displayName: Sonar Run Code Analysis
+
+    - task: SonarCloudPublish@1
+      displayName: Sonar Publish Quality Gate
+      inputs:
+        pollingTimeoutSec: '300'
+
     - task: sonarcloud-buildbreaker@2
+      displayName: Sonar Build Breaker
       inputs:
         SonarCloud: 'SonnarCloud'
         organization: 'iamtheluiz'
     
     - task: CopyFiles@2
+      displayName: Copy Files
       inputs:
-        SourceFolder: '.'
+        SourceFolder: './out'
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    
-    - task: ArchiveFiles@2
-      inputs:
-        rootFolderOrFile: 'Archive .'
-        includeRootFolder: false
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(DOTNET_PUBLISH_CONFIGURATION)_$(Build.BuildId).zip'
-        replaceExistingArchive: true
-        verbose: true
-    
+
     - task: PublishBuildArtifacts@1
+      displayName: Publish Artifact
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(DOTNET_PUBLISH_CONFIGURATION)_$(Build.BuildId).zip'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
         publishLocation: 'Container'

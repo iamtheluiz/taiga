@@ -6,3 +6,4 @@ out
 commands.json
 *.log
 junit.xml
+.env
