@@ -25,12 +25,21 @@ parameters:
   - taiga-wait
 
 variables:
+- group: EmailCredentials
 - name: SONAR_PROJECT_KEY
   value: Taiga
 - name: SONAR_PROJECT_NAME
   value: Taiga
 - name: DOTNET_PUBLISH_OUTDIR
   value: ../out/Taiga-win32-x64/resources
+- name: REPORT_LOGO
+  value: https://github.com/iamtheluiz/taiga/blob/master/.github/icon.jpg?raw=true
+- name: REPORT_APPLICATION
+  value: Taiga
+- name: REPORT_DESCRIPTION
+  value: 🐯 Taiga is a speech recognition app that executes registered voice commands.
+- name: REPORT_OUTPUT
+  value: report
 
 trigger: none
 
@@ -140,6 +149,73 @@ jobs:
         SourceFolder: './out'
         Contents: '**'
         TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: 'ls'
+    
+    - task: Npm@1
+      displayName: Install taiga-report
+      inputs:
+        command: 'custom'
+        workingDir: '.'
+        customCommand: 'install -g taiga-report'
+        customRegistry: 'useFeed'
+        customFeed: '03878c5b-cc53-42b8-9165-580aeebd9342/7c2a67a0-0264-4a36-9656-0ccabb462ccc'
+    
+    - task: PowerShell@2
+      displayName: Get GIT log
+      inputs:
+        targetType: 'inline'
+        script: |
+          $OutputPath = ".\git-log.txt"
+          
+          git log --all --decorate --oneline --graph > $OutputPath
+        workingDirectory: $(Build.SourcesDirectory)
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: 'taiga-report'
+        workingDirectory: $(Build.SourcesDirectory)
+      env:
+        RELEASE_GREETING_MESSAGE: ${{ parameters.RELEASE_GREETING_MESSAGE }}
+        TAIGA_DEFAULT_IMAGE: ${{ parameters.TAIGA_DEFAULT_IMAGE }}
+        REPORT_LOGO: $(REPORT_LOGO)
+        REPORT_APPLICATION: $(REPORT_APPLICATION)
+        REPORT_DESCRIPTION: $(REPORT_DESCRIPTION)
+        REPORT_BUILD_NAME: $(Build.BuildNumber)
+        REPORT_TESTS_FILE: .\junit.xml
+        REPORT_GIT_LOG_FILE: .\git-log.txt
+        REPORT_SONAR_FILE: '$(Build.ArtifactStagingDirectory)\.sqAnalysis\SonarQubeBuildSummary.md'
+        REPORT_OUTPUT: '$(Build.SourcesDirectory)\report'
+
+    - task: SendEmail@1
+      inputs:
+        To: 'lgdsvgamerp@gmail.com'
+        From: '$(EmailUser)'
+        Subject: 'Taiga build #$(Build.BuildNumber)'
+        Body: 'https://dev.azure.com/iamtheluiz/Taiga/_build/results?buildId=$(Build.BuildNumber)&view=results'
+        BodyAsHtml: false
+        AddAttachment: true
+        Attachment: '$(Build.SourcesDirectory)\report\report-$(Build.BuildNumber).pdf'
+        SmtpServer: 'smtp.gmail.com'
+        SmtpPort: '465'
+        SmtpUsername: '$(EmailUser)'
+        SmtpPassword: '$(EmailPassword)'
+
+    - task: publishhtmlreport@1
+      inputs:
+        htmlType: 'genericHTML'
+        htmlPath: '$(Build.SourcesDirectory)\report\report-$(Build.BuildNumber).html'
+
+    - task: CopyFiles@2
+      displayName: Copy Files
+      inputs:
+        SourceFolder: '.\report'
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)\report'
 
     - task: PublishBuildArtifacts@1
       displayName: Publish Artifact
