@@ -20,6 +20,11 @@ export class CreateCommand {
       throw new Error('Command name already exists!')
     }
 
+    // Format if program
+    if (commandData.type === 'program') {
+      commandData.content = `& '${commandData.content}'`
+    }
+
     const command = new Command(commandData)
 
     await this.commandsRepository.save(command)

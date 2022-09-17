@@ -4,7 +4,9 @@ import path from 'path'
 export const assetsPath =
   process.env.NODE_ENV === 'production'
     ? process.resourcesPath
-    : app.getAppPath()
+    : process.env.NODE_ENV === 'development'
+    ? app.getAppPath()
+    : ''
 
 export const iconPath = path.join(assetsPath, 'assets', 'icon.ico')
 
@@ -13,12 +15,7 @@ export const commandsFilePath =
     ? path.join(process.resourcesPath, 'commands.json')
     : path.join(__dirname, '..', '..', 'commands.json')
 
-export const logFilePath = path.join(
-  process.env.NODE_ENV === 'production'
-    ? process.resourcesPath
-    : app.getAppPath(),
-  'logs/main.log'
-)
+export const logFilePath = path.join(assetsPath, 'logs/main.log')
 
 export const taigaRecognitionApplicationPath =
   process.env.NODE_ENV === 'production'

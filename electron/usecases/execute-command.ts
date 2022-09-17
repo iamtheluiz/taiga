@@ -1,5 +1,9 @@
+import { log as logger } from '../lib/logger'
+
 import { CommandExecutionProvider } from '../providers/CommandExecutionProvider'
 import { CommandsRepository } from '../repositories/CommandsRepository'
+
+const log = logger.scope('ExecuteCommand')
 
 export class ExecuteCommand {
   // eslint-disable-next-line no-useless-constructor
@@ -9,11 +13,14 @@ export class ExecuteCommand {
   ) {}
 
   async execute(id: string) {
+    log.info(`received id ${id}`)
     const command = await this.commandsRepository.findById(id)
 
     if (!command) {
       throw new Error('Command not found')
     }
+
+    log.info(`trying to find command type "${command.type}"`)
 
     switch (command.type) {
       case 'website':

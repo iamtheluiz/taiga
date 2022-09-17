@@ -21,6 +21,8 @@ export const Container = styled.button<ButtonProps>`
 
   cursor: pointer;
 
+  transition: all 0.2s;
+
   &:hover {
     filter: brightness(0.9);
   }

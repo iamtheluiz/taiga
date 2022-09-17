@@ -22,5 +22,23 @@
     "content": "https://www.twitch.tv/boxbox",
     "type": "website",
     "id": "2681ca30-1772-4223-a3fd-fabc4b03dde3"
+  },
+  {
+    "name": "Taiga open genshin impact",
+    "content": "& 'C:\\Program Files\\Genshin Impact\\launcher.exe'",
+    "type": "program",
+    "id": "20122b73-645c-4b26-b47a-6b8faa3991a1"
+  },
+  {
+    "name": "Taiga open taiga workspace",
+    "content": "code C:\\Users\\iamth\\workspace\\taiga",
+    "type": "shell",
+    "id": "73a9c64f-26c2-4539-a781-47f075f582d3"
+  },
+  {
+    "name": "Taiga open task manager",
+    "content": "taskmgr",
+    "type": "shell",
+    "id": "d430d734-f56b-44af-bb8e-e78c2a3c3b57"
   }
 ]

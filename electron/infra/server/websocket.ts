@@ -13,7 +13,7 @@ export class WebsocketServer {
   static io: IoType
   private static clients: any[] = []
 
-  onConnection(socekt: SocketType) {}
+  onConnection(socket: SocketType) {}
 
   listen(port = 2707) {
     WebsocketServer.io.listen(port)
