@@ -13,7 +13,7 @@
     "make": "electron-forge make",
     "release": "electron-forge publish",
     "lint": "eslint . --ext js,ts,tsx --fix",
-    "test": "jest --reporters=jest-junit --reporters=default"
+    "test": "jest --reporters=jest-junit --reporters=default --coverage"
   },
   "lint-staged": {
     "**/*.js": [
