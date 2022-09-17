@@ -199,20 +199,6 @@ jobs:
         REPORT_SONAR_FILE: '$(Build.ArtifactStagingDirectory)\.sqAnalysis\SonarQubeBuildSummary.md'
         REPORT_OUTPUT: '$(Build.SourcesDirectory)\report'
 
-    - task: SendEmail@1
-      inputs:
-        To: 'lgdsvgamerp@gmail.com'
-        From: '$(EmailUser)'
-        Subject: 'Taiga build #$(Build.BuildNumber)'
-        Body: 'https://dev.azure.com/iamtheluiz/Taiga/_build/results?buildId=$(Build.BuildNumber)&view=results'
-        BodyAsHtml: false
-        AddAttachment: true
-        Attachment: '$(Build.SourcesDirectory)\report\report-$(Build.BuildNumber).pdf'
-        SmtpServer: 'smtp.gmail.com'
-        SmtpPort: '465'
-        SmtpUsername: '$(EmailUser)'
-        SmtpPassword: '$(EmailPassword)'
-
     - task: publishhtmlreport@1
       inputs:
         htmlType: 'genericHTML'
