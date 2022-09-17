@@ -25,7 +25,6 @@ parameters:
   - taiga-wait
 
 variables:
-- group: EmailCredentials
 - name: SONAR_PROJECT_KEY
   value: Taiga
 - name: SONAR_PROJECT_NAME
