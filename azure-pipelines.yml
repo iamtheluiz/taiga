@@ -129,6 +129,14 @@ jobs:
         modifyOutputPath: false
         workingDirectory: './TaigaRecognition'
 
+    - task: Gitleaks@2
+      inputs:
+        scanlocation: '$(Build.SourcesDirectory)'
+        configtype: 'predefined'
+        predefinedconfigfile: 'GitleaksUdmCombo.toml'
+        scanmode: 'all'
+        reportformat: 'sarif'
+
     - task: SonarCloudAnalyze@1
       displayName: Sonar Run Code Analysis
 
